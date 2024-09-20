@@ -16,6 +16,10 @@
         "./dist/ngx-configuration-core"
       ]
     },
+    "types": [
+      "node",
+      "jest"
+    ],
     "esModuleInterop": true,
     "sourceMap": true,
     "declaration": false,
