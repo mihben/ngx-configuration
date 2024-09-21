@@ -1,3 +1,5 @@
+import { ConfigurationStore } from "./configuration-store";
+
 export interface IConfigurationSource {
-    load(): Promise<void>;
+    loadAsync(): Promise<ConfigurationStore>;
 }
