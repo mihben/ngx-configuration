@@ -1,6 +1,7 @@
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 import { ConfigurationSourceStoreService } from './configuration-source-store.service';
 import { TestConfigurationSource } from '../__test_utils__/test-configuration-source';
+import { faker } from '@faker-js/faker';
 
 describe('Service: ConfigurationSourceStore', () => {
   let sut: SpectatorService<ConfigurationSourceStoreService>;
@@ -12,7 +13,7 @@ describe('Service: ConfigurationSourceStore', () => {
 
   it('[CSS-001] - Register source', () => {
     // Arrange
-    const source = new TestConfigurationSource();
+    const source = new TestConfigurationSource(faker.string.sample(), faker.string.sample());
 
     // Act
     sut.service.register(source);
@@ -23,7 +24,7 @@ describe('Service: ConfigurationSourceStore', () => {
 
   it('[CSS-002] - Clear sources', () => {
     // Arrange
-    const source = new TestConfigurationSource();
+    const source = new TestConfigurationSource(faker.string.sample(), faker.string.sample());
     sut.service.register(source);
 
     // Act
@@ -35,7 +36,7 @@ describe('Service: ConfigurationSourceStore', () => {
 
   it('[CSS-003] - Get sources', () => {
     // Arrange
-    const sources = [new TestConfigurationSource(), new TestConfigurationSource()];
+    const sources = [new TestConfigurationSource(faker.string.sample(), faker.string.sample()), new TestConfigurationSource(faker.string.sample(), faker.string.sample())];
 
     sut.service.register(sources[1]);
     sut.service.register(sources[0]);

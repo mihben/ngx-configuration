@@ -17,16 +17,18 @@ describe('Service: [CNL] - ConfigurationLoader', () => {
 
   it('[CNL-001] - Load configuration from registered sources', async () => {
     // Arrange
-    const sources = [new TestConfigurationSource(faker.string.sample(), faker.string.sample()), new TestConfigurationSource(faker.string.sample(), faker.string.sample())];
+    const key = faker.string.sample();
+    const value = faker.string.sample();
+
+    const sources = [new TestConfigurationSource(key, value)];
 
     const storeMock = sut.inject(ConfigurationSourceStoreService);
     jest.spyOn(storeMock, 'sources', 'get').mockReturnValue(sources);
 
     // Act
-    await sut.service.loadAsync();
+    const result = await sut.service.loadAsync();
 
     // Assert
-    expect(sources[0].loaded).toBeTruthy();
-    expect(sources[1].loaded).toBeTruthy();
+    expect(result.get(key)).toEqual(value);
   });
 })
