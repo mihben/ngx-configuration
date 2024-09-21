@@ -30,6 +30,7 @@
     "@faker-js/faker": "^9.0.1",
     "@ngneat/spectator": "^19.0.0",
     "@types/jest": "^29.5.13",
+    "@types/node": "^22.5.5",
     "angular-eslint": "18.3.1",
     "eslint": "^9.9.1",
     "faker": "^6.6.6",
