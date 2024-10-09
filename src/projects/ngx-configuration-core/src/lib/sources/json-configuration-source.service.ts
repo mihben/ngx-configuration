@@ -20,7 +20,7 @@ export class JsonConfigurationSourceService implements IConfigurationSource {
       const content = await lastValueFrom(this.client.get<any>(this.options.path));
 
       this.readValues(content, '', result);
-
+      
       console.debug(`Configuration from '${this.options.path}' has been loaded`);
       return result;
     } catch (response: any) {

@@ -1,5 +1,4 @@
 import { Inject, Injectable } from '@angular/core';
-import { IConfigurationSource } from './configuration-source';
 import { ConfigurationSourceStoreService } from './configuration-source-store.service';
 import { Configuration } from './configuration';
 import { ConfigurationStore } from './configuration-store';
@@ -9,16 +8,17 @@ import { ConfigurationStore } from './configuration-store';
 })
 export class ConfigurationLoaderService {
 
-  constructor(private readonly store: ConfigurationSourceStoreService) { }
+  constructor(private readonly store: ConfigurationSourceStoreService, private readonly configuration: Configuration) { }
 
-  async loadAsync(): Promise<Configuration> {
+  async loadAsync(): Promise<void> {
     const stores: ConfigurationStore[] = [];
-    
+
     for (const source of this.store.sources) {
-      stores.push(await source.loadAsync());
+      var configuration = await source.loadAsync();
+      if (configuration) stores.push(configuration);
     }
 
-    return new Configuration(stores);
+    this.configuration.initialize(stores);
   }
 
 }
