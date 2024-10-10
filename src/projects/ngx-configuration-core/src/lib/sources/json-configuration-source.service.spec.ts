@@ -1,7 +1,5 @@
-import { TestBed } from '@angular/core/testing';
-
 import { JsonConfigurationSourceOptions, JsonConfigurationSourceService } from './json-configuration-source.service';
-import { createHttpFactory, HttpMethod } from '@ngneat/spectator';
+import { createHttpFactory } from '@ngneat/spectator';
 import { faker } from '@faker-js/faker';
 import { HttpClient, HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 import { of } from 'rxjs';

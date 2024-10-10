@@ -10,3 +10,5 @@ export { ConfigurationLoaderService } from './lib/configuration-loader.service'
 export { ConfigurationSourceStoreService } from './lib/configuration-source-store.service'
 
 export { JsonConfigurationSourceOptions, JsonConfigurationSourceService } from './lib/sources/json-configuration-source.service'
+
+export { provideConfiguration } from './provideConfiguration'

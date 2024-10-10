@@ -14,5 +14,6 @@ export class AppComponent {
 
   constructor(public readonly configuration: Configuration) {
     console.log(`BaseAddress: ${configuration.get('BaseAddress')}`);
+    console.log(`Path: ${configuration.get('Path')}`);
   }
 }
