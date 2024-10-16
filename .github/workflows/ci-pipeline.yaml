@@ -3,6 +3,10 @@ run-name: CI Pipeline Test
 
 on: [pull_request]
 
+env:
+  source_dir: src
+  test_results_dir: test-results
+
 jobs:
   ng-lib:
     runs-on: ubuntu-latest
@@ -24,16 +28,17 @@ jobs:
         run: |
           npm ci 
           npm run buil --if-present
-        working-directory: .src/
+        working-directory: ${{ source_dir }}
 
       - name: Test
         run: |
           npm install jest-junit --save-devs
-          npm run test:ci -- --outputFile=.test-result/tests.unit.xml
+          npm run test:ci -- --outputFile=${{ test_results_dir }}tests.unit.xml
+        working-directory: ${{ source_dir }}
 
       - name: Publish Test Results
         uses: EnricoMi/publish-unit-test-result-action@v2
         if: always()
         with:
           files: |
-            test-results/**/*.xml
+            ${{ test_results_dir }}/**/*.xml
