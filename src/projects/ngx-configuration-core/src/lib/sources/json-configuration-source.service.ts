@@ -6,49 +6,50 @@ import { HttpClient, HttpStatusCode } from '@angular/common/http';
 import { lastValueFrom } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root',
 })
 export class JsonConfigurationSourceService implements IConfigurationSource {
+    constructor(
+        private readonly client: HttpClient,
+        private readonly options: JsonConfigurationSourceOptions
+    ) {}
 
-  constructor(private readonly client: HttpClient, private readonly options: JsonConfigurationSourceOptions) { }
+    async loadAsync(): Promise<ConfigurationStore | null> {
+        console.debug(`Attempting to load configuration from '${this.options.path}' path`);
+        const result = new ConfigurationStore();
 
-  async loadAsync(): Promise<ConfigurationStore | null> {
-    console.debug(`Attempting to load configuration from '${this.options.path}' path`)
-    const result = new ConfigurationStore();
+        try {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            const content = await lastValueFrom(this.client.get<any>(this.options.path));
 
-    try {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const content = await lastValueFrom(this.client.get<any>(this.options.path));
+            this.readValues(content, '', result);
 
-      this.readValues(content, '', result);
+            console.debug(`Configuration from '${this.options.path}' has been loaded`);
+            return result;
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        } catch (response: any) {
+            if (response.status === HttpStatusCode.NotFound) {
+                if (!this.options.optional) throw new Error(`Mandatory configuration on '${this.options.path}' path was not found`);
 
-      console.debug(`Configuration from '${this.options.path}' has been loaded`);
-      return result;
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (response: any) {
-      if (response.status === HttpStatusCode.NotFound) {
-        if (!this.options.optional) throw new Error(`Mandatory configuration on '${this.options.path}' path was not found`);
-
-        console.debug(`Optional configuration on '${this.options.path}' path was not found`);
-        return null;
-      }
-      throw response;
+                console.debug(`Optional configuration on '${this.options.path}' path was not found`);
+                return null;
+            }
+            throw response;
+        }
     }
-  }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  private readValues(content: any, section: string, store: ConfigurationStore) {
-    for (const key of Object.keys(content)) {
-      const value = content[key];
-      if (typeof value === 'object') {
-        this.readValues(value, `${section}${key}:`, store);
-      }
-      else store[`${section}${key}`] = value;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    private readValues(content: any, section: string, store: ConfigurationStore) {
+        for (const key of Object.keys(content)) {
+            const value = content[key];
+            if (typeof value === 'object') {
+                this.readValues(value, `${section}${key}:`, store);
+            } else store[`${section}${key}`] = value;
+        }
     }
-  }
 }
 
 export class JsonConfigurationSourceOptions {
-  public path!: string;
-  public optional = false;
+    public path!: string;
+    public optional = false;
 }

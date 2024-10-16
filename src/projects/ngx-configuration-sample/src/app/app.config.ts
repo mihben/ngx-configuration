@@ -8,12 +8,14 @@ import { environment } from '../environments/environment';
 import { defaultConfiguration, provideConfiguration } from '../../../ngx-configuration-core/src/provideConfiguration';
 
 export function ConfigurationLoader(loader: ConfigurationLoaderService) {
-  return () => loader.loadAsync();
+    return () => loader.loadAsync();
 }
 
 export const appConfig: ApplicationConfig = {
-  providers: [provideZoneChangeDetection({ eventCoalescing: true }), provideRouter(routes),
-  provideConfiguration(builder => defaultConfiguration(builder, environment.environment)),
-  provideHttpClient()
-  ]
+    providers: [
+        provideZoneChangeDetection({ eventCoalescing: true }),
+        provideRouter(routes),
+        provideConfiguration(builder => defaultConfiguration(builder, environment.environment)),
+        provideHttpClient(),
+    ],
 };

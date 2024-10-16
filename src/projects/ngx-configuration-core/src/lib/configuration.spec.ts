@@ -1,6 +1,6 @@
-import { faker } from "@faker-js/faker";
-import { Configuration } from "./configuration";
-import { ConfigurationStoreFaker } from "../__test_utils__/configuration-store-faker";
+import { faker } from '@faker-js/faker';
+import { Configuration } from './configuration';
+import { ConfigurationStoreFaker } from '../__test_utils__/configuration-store-faker';
 
 describe('Service: [CNF] - Configuration', () => {
     it('[CNF-001] - Get configuration', () => {

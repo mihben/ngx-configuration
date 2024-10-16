@@ -4,32 +4,31 @@ import { JsonConfigurationSourceOptions, JsonConfigurationSourceService } from '
 import { HttpClient } from '@angular/common/http';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root',
 })
 export class ConfigurationSourceStoreService {
-  private _sources: IConfigurationSource[] = [];
-  public get sources(): IConfigurationSource[] {
-    return this._sources;
-  }
+    private _sources: IConfigurationSource[] = [];
+    public get sources(): IConfigurationSource[] {
+        return this._sources;
+    }
 
+    register(source: IConfigurationSource): ConfigurationSourceStoreService {
+        this._sources.push(source);
 
-  register(source: IConfigurationSource): ConfigurationSourceStoreService {
-    this._sources.push(source);
+        return this;
+    }
 
-    return this;
-  }
+    registerJson(path: string, optional = false): ConfigurationSourceStoreService {
+        const options = new JsonConfigurationSourceOptions();
+        options.path = path;
+        options.optional = optional;
 
-  registerJson(path: string, optional = false): ConfigurationSourceStoreService {
-    const options = new JsonConfigurationSourceOptions();
-    options.path = path;
-    options.optional = optional;
+        this.register(new JsonConfigurationSourceService(inject(HttpClient), options));
 
-    this.register(new JsonConfigurationSourceService(inject(HttpClient), options));
+        return this;
+    }
 
-    return this;
-  }
-
-  clear(): void {
-    this._sources = [];
-  }
+    clear(): void {
+        this._sources = [];
+    }
 }

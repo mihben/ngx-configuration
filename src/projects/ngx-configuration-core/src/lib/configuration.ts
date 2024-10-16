@@ -1,4 +1,4 @@
-import { ConfigurationStore } from "./configuration-store";
+import { ConfigurationStore } from './configuration-store';
 
 export class Configuration {
     private _stores: ConfigurationStore[] = [];

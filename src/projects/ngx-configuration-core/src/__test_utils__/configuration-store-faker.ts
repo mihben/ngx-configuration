@@ -1,5 +1,5 @@
-import { faker } from "@faker-js/faker";
-import { ConfigurationStore } from "../lib/configuration-store";
+import { faker } from '@faker-js/faker';
+import { ConfigurationStore } from '../lib/configuration-store';
 
 export class ConfigurationStoreFaker {
     public static random() {
