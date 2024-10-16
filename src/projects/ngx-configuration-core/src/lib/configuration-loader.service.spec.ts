@@ -1,12 +1,11 @@
 import { TestConfigurationSource } from '../__test_utils__/test-configuration-source';
 import { ConfigurationLoaderService } from './configuration-loader.service';
-import { createServiceFactory, mockProvider, SpectatorService } from '@ngneat/spectator';
+import { createServiceFactory } from '@ngneat/spectator';
 import { ConfigurationSourceStoreService } from './configuration-source-store.service';
 import { faker } from '@faker-js/faker';
 import { Configuration } from './configuration';
 
 describe('Service: [CNL] - ConfigurationLoader', () => {
-  let sut: SpectatorService<ConfigurationLoaderService>;
   let configuration: Configuration | undefined = undefined;
 
   const factory = createServiceFactory({

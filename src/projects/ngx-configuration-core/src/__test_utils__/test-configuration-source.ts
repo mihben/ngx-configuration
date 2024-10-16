@@ -2,7 +2,7 @@ import { ConfigurationStore } from "../lib/configuration-store";
 import { IConfigurationSource } from "../lib/configuration-source";
 
 export class TestConfigurationSource implements IConfigurationSource {
-    private _loaded: boolean = false;
+    private _loaded = false;
 
     constructor(private readonly key: string, private readonly value: string) {
     }

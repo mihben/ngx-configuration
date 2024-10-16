@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { ConfigurationSourceStoreService } from './configuration-source-store.service';
 import { Configuration } from './configuration';
 import { ConfigurationStore } from './configuration-store';
@@ -14,7 +14,7 @@ export class ConfigurationLoaderService {
     const stores: ConfigurationStore[] = [];
 
     for (const source of this.store.sources) {
-      var configuration = await source.loadAsync();
+      const configuration = await source.loadAsync();
       if (configuration) stores.push(configuration);
     }
 

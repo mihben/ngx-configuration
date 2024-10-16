@@ -1,18 +1,17 @@
-import { APP_INITIALIZER, inject, Provider } from "@angular/core";
-import { Configuration, ConfigurationLoaderService, ConfigurationSourceStoreService, ConfigurationStore, JsonConfigurationSourceOptions, JsonConfigurationSourceService } from "./public-api";
+import { APP_INITIALIZER, Provider } from "@angular/core";
+import { Configuration, ConfigurationLoaderService, ConfigurationSourceStoreService, ConfigurationStore } from "./public-api";
 import { HttpClient } from "@angular/common/http";
 
-export const defaultConfiguration = (store: ConfigurationSourceStoreService, environment: string) => {
-    const options = new JsonConfigurationSourceOptions();
-    options.path = "appsettings.json";
-    store.register(new JsonConfigurationSourceService(inject(HttpClient), options));
+export const defaultConfiguration = (builder: ConfigurationSourceStoreService, environment: string): ConfigurationSourceStoreService => {
+    builder
+        .registerJson('appsettings.json')
+        .registerJson(`appsettings.${environment}.json`);
 
-    if (environment) {
-        const optionsDev = new JsonConfigurationSourceOptions();
-        optionsDev.path = `appsettings.${environment}.json`;
-        optionsDev.optional = true;
-        store.register(new JsonConfigurationSourceService(inject(HttpClient), optionsDev));
-    }
+    return builder;
+}
+
+function initializer(loader: ConfigurationLoaderService) {
+    return () => loader.loadAsync();
 }
 
 export function provideConfiguration(build: (store: ConfigurationSourceStoreService) => void): Provider[] {
@@ -29,7 +28,7 @@ export function provideConfiguration(build: (store: ConfigurationSourceStoreServ
         {
             provide: ConfigurationSourceStoreService,
             useFactory: () => {
-                var result = new ConfigurationSourceStoreService();
+                const result = new ConfigurationSourceStoreService();
 
                 build(result);
 
@@ -44,7 +43,7 @@ export function provideConfiguration(build: (store: ConfigurationSourceStoreServ
         },
         {
             provide: APP_INITIALIZER,
-            useFactory: (loader: ConfigurationLoaderService) => loader.loadAsync(),
+            useFactory: initializer,
             deps: [ConfigurationLoaderService],
             multi: true
         }

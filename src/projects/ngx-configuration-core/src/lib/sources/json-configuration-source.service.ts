@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { IConfigurationSource } from '../configuration-source';
 import { ConfigurationStore } from '../configuration-store';
 
-import { HttpClient, HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
+import { HttpClient, HttpStatusCode } from '@angular/common/http';
 import { lastValueFrom } from 'rxjs';
 
 @Injectable({
@@ -17,12 +17,14 @@ export class JsonConfigurationSourceService implements IConfigurationSource {
     const result = new ConfigurationStore();
 
     try {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const content = await lastValueFrom(this.client.get<any>(this.options.path));
 
       this.readValues(content, '', result);
-      
+
       console.debug(`Configuration from '${this.options.path}' has been loaded`);
       return result;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (response: any) {
       if (response.status === HttpStatusCode.NotFound) {
         if (!this.options.optional) throw new Error(`Mandatory configuration on '${this.options.path}' path was not found`);
@@ -34,6 +36,7 @@ export class JsonConfigurationSourceService implements IConfigurationSource {
     }
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private readValues(content: any, section: string, store: ConfigurationStore) {
     for (const key of Object.keys(content)) {
       const value = content[key];
@@ -47,5 +50,5 @@ export class JsonConfigurationSourceService implements IConfigurationSource {
 
 export class JsonConfigurationSourceOptions {
   public path!: string;
-  public optional: boolean = false;
+  public optional = false;
 }

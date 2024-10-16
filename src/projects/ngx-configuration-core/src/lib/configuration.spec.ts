@@ -12,7 +12,7 @@ describe('Service: [CNF] - Configuration', () => {
         sut.initialize([ConfigurationStoreFaker.with(key, faker.string.sample()), ConfigurationStoreFaker.with(key, value)]);
 
         // Act
-        var result = sut.get(key);
+        const result = sut.get(key);
 
         // Assert
         expect(result).toEqual(value);
@@ -24,7 +24,7 @@ describe('Service: [CNF] - Configuration', () => {
         sut.initialize([ConfigurationStoreFaker.with(faker.string.sample(), faker.string.sample())]);
 
         // Act
-        var result = sut.get(faker.string.sample());
+        const result = sut.get(faker.string.sample());
 
         // Assert
         expect(result).toBeUndefined();
