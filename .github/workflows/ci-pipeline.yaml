@@ -32,7 +32,7 @@ jobs:
 
       - name: Test
         env:
-          JEST_JUNIT_OUTPUT_DIR: ${{ TEST_RESULTS_DIR }}
+          JEST_JUNIT_OUTPUT_DIR: ${{ env.TEST_RESULTS_DIR }}
           JEST_JUNIT_OUTPUT_NAME: tests.unit.xml
         run: |
           npm install jest-junit --save-devs
