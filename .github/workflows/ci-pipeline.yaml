@@ -3,6 +3,10 @@ run-name: CI Pipeline Test
 
 on: [pull_request]
 
+permissions:
+  checks: write
+  pull-requests: write
+
 env:
   SOURCE_DIR: src
   TEST_RESULT_DIR: test-results
@@ -32,7 +36,7 @@ jobs:
 
       - name: Test
         env:
-          JEST_JUNIT_OUTPUT_DIR: ${{ env.TEST_RESULTS_DIR }}
+          JEST_JUNIT_OUTPUT_DIR: ${{ env.TEST_RESULT_DIR }}
           JEST_JUNIT_OUTPUT_NAME: tests.unit.xml
         run: |
           npm install jest-junit --save-devs
