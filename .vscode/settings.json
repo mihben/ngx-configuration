@@ -1,0 +1,6 @@
+{
+  "sonarlint.connectedMode.project": {
+    "connectionId": "SonarCloud",
+    "projectKey": "mihben_ngx-configuration"
+  }
+}

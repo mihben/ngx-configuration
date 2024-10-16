@@ -7,7 +7,6 @@ import { Configuration } from '../../../ngx-configuration-core/src/public-api';
     standalone: true,
     imports: [RouterOutlet],
     templateUrl: './app.component.html',
-    styleUrl: './app.component.scss',
 })
 export class AppComponent {
     title = 'Sample';

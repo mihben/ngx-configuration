@@ -12,13 +12,13 @@ export class ConfigurationSourceStoreService {
         return this._sources;
     }
 
-    register(source: IConfigurationSource): ConfigurationSourceStoreService {
+    register(source: IConfigurationSource): this {
         this._sources.push(source);
 
         return this;
     }
 
-    registerJson(path: string, optional = false): ConfigurationSourceStoreService {
+    registerJson(path: string, optional = false): this {
         const options = new JsonConfigurationSourceOptions();
         options.path = path;
         options.optional = optional;
