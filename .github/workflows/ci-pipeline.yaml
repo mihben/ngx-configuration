@@ -31,9 +31,12 @@ jobs:
         working-directory: ${{ env.SOURCE_DIR }}
 
       - name: Test
+        env:
+          JEST_JUNIT_OUTPUT_DIR: ${{ TEST_RESULTS_DIR }}
+          JEST_JUNIT_OUTPUT_NAME: tests.unit.xml
         run: |
           npm install jest-junit --save-devs
-          npm run test:ci -- --outputFile=${{ env.TEST_RESULT_DIR }}/tests.unit.xml
+          npm run test:ci
         working-directory: ${{ env.SOURCE_DIR }}
 
       - name: Publish Test Results
