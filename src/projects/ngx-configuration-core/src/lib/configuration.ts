@@ -8,7 +8,7 @@ export class Configuration {
     }
 
     public get(key: string): string | undefined {
-        for (const configuration of this._stores.reverse()) {
+        for (const configuration of this._stores.toReversed()) {
             if (configuration[key]) return configuration[key];
         }
 
