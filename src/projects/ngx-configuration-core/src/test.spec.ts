@@ -3,7 +3,7 @@ describe('DummyTest', () => {
     expect(true).toBeTruthy();
   });
 
-  //   it('FAIL', () => {
-  //     expect(false).toBeTruthy();
-  //   });
+  it('FAIL', () => {
+    expect(false).toBeTruthy();
+  });
 });

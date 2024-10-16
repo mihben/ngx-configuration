@@ -1,5 +1,5 @@
 name: CI Pipeline
-run-name: PR-${{ github.event.number }}-${{ github.event.name }}
+run-name: PR-${{ github.event.number }}
 
 on: [pull_request]
 
@@ -36,7 +36,7 @@ jobs:
 
       - name: Test
         env:
-          JEST_JUNIT_OUTPUT_FILE: ${{ env.TEST_RESULT_DIR }}/tests.unit.xml
+          JEST_JUNIT_OUTPUT_FILE: ./${{ env.TEST_RESULT_DIR }}/tests.unit.xml
           JEST_JUNIT_REPORT_TEST_SUITE_ERRORS: true
         run: |
           npm install jest-junit --save-devs
@@ -48,4 +48,4 @@ jobs:
         if: always()
         with:
           files: |
-            src/${{ env.TEST_RESULT_DIR }}/tests.unit.xml
+            ${{ env.TEST_RESULT_DIR }}/tests.unit.xml
