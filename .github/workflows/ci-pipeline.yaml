@@ -1,5 +1,5 @@
 name: CI Pipeline
-run-name: PR-${{ github.ref }}
+run-name: PR-${{ GITHUB_HEAD_REF }}
 
 on: [pull_request]
 
