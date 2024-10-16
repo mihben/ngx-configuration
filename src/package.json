@@ -8,7 +8,7 @@
     "watch": "ng build --watch --configuration development",
     "test": "jest",
     "test:watch": "jest --watch",
-    "test:ci": "jest --runInBand",
+    "test:ci": "jest --ci --passWithNoTests --reporters='jest-junit' --runInBand --bail=0",
     "lint": "ng lint"
   },
   "private": true,
