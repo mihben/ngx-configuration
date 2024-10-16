@@ -7,6 +7,7 @@
         "build": "ng build",
         "watch": "ng build --watch --configuration development",
         "test": "jest",
+        "test:ci": "jest --ci --passWithNoTests --reporters='jest-junit' --runInBand --bail=0",
         "lint": "ng lint",
         "pretty": "prettier --write \"./**/*.{js,jsx,mjs,cjs,ts,tsx,json}\""
     },
