@@ -28,17 +28,17 @@ jobs:
         run: |
           npm ci 
           npm run buil --if-present
-        working-directory: $SOURCE_DIR
+        working-directory: ${{ env.SOURCE_DIR }}
 
       - name: Test
         run: |
           npm install jest-junit --save-devs
-          npm run test:ci -- --outputFile=$TEST_RESULT_DIRtests.unit.xml
-        working-directory: $SOURCE_DIR
+          npm run test:ci -- --outputFile=${{ env.TEST_RESULT_DIR }}/tests.unit.xml
+        working-directory: ${{ env.SOURCE_DIR }}
 
       - name: Publish Test Results
         uses: EnricoMi/publish-unit-test-result-action@v2
         if: always()
         with:
           files: |
-            $TEST_RESULT_DIR/**/*.xml
+            ${{ env.TEST_RESULT_DIR }}/**/*.xml
