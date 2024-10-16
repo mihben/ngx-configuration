@@ -1,5 +1,5 @@
 name: CI Pipeline
-run-name: PR-${{ github.header_ref }}
+run-name: PR-${{ github.event.number }}-${{ github.event.name }}
 
 on: [pull_request]
 
@@ -48,4 +48,4 @@ jobs:
         if: always()
         with:
           files: |
-            ${{ env.TEST_RESULT_DIR }}/tests.unit.xml
+            src/${{ env.TEST_RESULT_DIR }}/tests.unit.xml
