@@ -36,7 +36,7 @@ jobs:
 
       - name: Test
         env:
-          JEST_JUNIT_OUTPUT_DIR: ${{ env.TEST_RESULT_DIR }}
+          JEST_JUNIT_OUTPUT_DIR: <rootDir>/${{ env.TEST_RESULT_DIR }}
           JEST_JUNIT_OUTPUT_NAME: tests.unit.xml
           JEST_JUNIT_REPORT_TEST_SUITE_ERRORS: true
         run: |
@@ -49,4 +49,4 @@ jobs:
         if: always()
         with:
           files: |
-            ${{ env.TEST_RESULT_DIR }}/test.unit.xml
+            <rootDir>/${{ env.TEST_RESULT_DIR }}/test.unit.xml
