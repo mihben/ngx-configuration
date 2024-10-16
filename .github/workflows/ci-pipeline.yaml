@@ -49,4 +49,4 @@ jobs:
         if: always()
         with:
           files: |
-            ${{ env.TEST_RESULT_DIR }}/**/*.xml
+            ${{ env.TEST_RESULT_DIR }}/test.unit.xml
