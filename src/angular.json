@@ -1,55 +1,143 @@
 {
-  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
-  "version": 1,
-  "newProjectRoot": "projects",
-  "projects": {
-    "ngx-configuration-core": {
-      "projectType": "library",
-      "root": "projects/ngx-configuration-core",
-      "sourceRoot": "projects/ngx-configuration-core/src",
-      "prefix": "lib",
-      "architect": {
-        "build": {
-          "builder": "@angular-devkit/build-angular:ng-packagr",
-          "options": {
-            "project": "projects/ngx-configuration-core/ng-package.json"
-          },
-          "configurations": {
-            "production": {
-              "tsConfig": "projects/ngx-configuration-core/tsconfig.lib.prod.json"
-            },
-            "development": {
-              "tsConfig": "projects/ngx-configuration-core/tsconfig.lib.json"
+    "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+    "version": 1,
+    "newProjectRoot": "projects",
+    "projects": {
+        "ngx-configuration-core": {
+            "projectType": "library",
+            "root": "projects/ngx-configuration-core",
+            "sourceRoot": "projects/ngx-configuration-core/src",
+            "prefix": "lib",
+            "architect": {
+                "build": {
+                    "builder": "@angular-devkit/build-angular:ng-packagr",
+                    "options": {
+                        "project": "projects/ngx-configuration-core/ng-package.json"
+                    },
+                    "configurations": {
+                        "production": {
+                            "tsConfig": "projects/ngx-configuration-core/tsconfig.lib.prod.json"
+                        },
+                        "development": {
+                            "tsConfig": "projects/ngx-configuration-core/tsconfig.lib.json"
+                        }
+                    },
+                    "defaultConfiguration": "production"
+                },
+                "lint": {
+                    "builder": "@angular-eslint/builder:lint",
+                    "options": {
+                        "lintFilePatterns": ["projects/ngx-configuration-core/**/*.ts", "projects/ngx-configuration-core/**/*.html"],
+                        "eslintConfig": "projects/ngx-configuration-core/eslint.config.js"
+                    }
+                }
             }
-          },
-          "defaultConfiguration": "production"
         },
-        "test": {
-          "builder": "@angular-devkit/build-angular:karma",
-          "options": {
-            "tsConfig": "projects/ngx-configuration-core/tsconfig.spec.json",
-            "polyfills": [
-              "zone.js",
-              "zone.js/testing"
-            ]
-          }
-        },
-        "lint": {
-          "builder": "@angular-eslint/builder:lint",
-          "options": {
-            "lintFilePatterns": [
-              "projects/ngx-configuration-core/**/*.ts",
-              "projects/ngx-configuration-core/**/*.html"
-            ],
-            "eslintConfig": "projects/ngx-configuration-core/eslint.config.js"
-          }
+        "ngx-configuration-sample": {
+            "projectType": "application",
+            "schematics": {
+                "@schematics/angular:component": {
+                    "style": "scss"
+                }
+            },
+            "root": "projects/ngx-configuration-sample",
+            "sourceRoot": "projects/ngx-configuration-sample/src",
+            "prefix": "app",
+            "architect": {
+                "build": {
+                    "builder": "@angular-devkit/build-angular:application",
+                    "options": {
+                        "outputPath": "dist/ngx-configuration-sample",
+                        "index": "projects/ngx-configuration-sample/src/index.html",
+                        "browser": "projects/ngx-configuration-sample/src/main.ts",
+                        "polyfills": ["zone.js"],
+                        "tsConfig": "projects/ngx-configuration-sample/tsconfig.app.json",
+                        "inlineStyleLanguage": "scss",
+                        "assets": [
+                            {
+                                "glob": "**/*",
+                                "input": "projects/ngx-configuration-sample/public"
+                            }
+                        ],
+                        "styles": ["projects/ngx-configuration-sample/src/styles.scss"],
+                        "scripts": []
+                    },
+                    "configurations": {
+                        "production": {
+                            "budgets": [
+                                {
+                                    "type": "initial",
+                                    "maximumWarning": "500kB",
+                                    "maximumError": "1MB"
+                                },
+                                {
+                                    "type": "anyComponentStyle",
+                                    "maximumWarning": "2kB",
+                                    "maximumError": "4kB"
+                                }
+                            ],
+                            "outputHashing": "all"
+                        },
+                        "development": {
+                            "optimization": false,
+                            "extractLicenses": false,
+                            "sourceMap": true,
+                            "fileReplacements": [
+                                {
+                                    "replace": "projects/ngx-configuration-sample/src/environments/environment.ts",
+                                    "with": "projects/ngx-configuration-sample/src/environments/environment.development.ts"
+                                }
+                            ]
+                        }
+                    },
+                    "defaultConfiguration": "production"
+                },
+                "serve": {
+                    "builder": "@angular-devkit/build-angular:dev-server",
+                    "configurations": {
+                        "production": {
+                            "buildTarget": "ngx-configuration-sample:build:production"
+                        },
+                        "development": {
+                            "buildTarget": "ngx-configuration-sample:build:development"
+                        }
+                    },
+                    "defaultConfiguration": "development"
+                },
+                "extract-i18n": {
+                    "builder": "@angular-devkit/build-angular:extract-i18n"
+                },
+                "test": {
+                    "builder": "@angular-devkit/build-angular:karma",
+                    "options": {
+                        "polyfills": ["zone.js", "zone.js/testing"],
+                        "tsConfig": "projects/ngx-configuration-sample/tsconfig.spec.json",
+                        "inlineStyleLanguage": "scss",
+                        "assets": [
+                            {
+                                "glob": "**/*",
+                                "input": "projects/ngx-configuration-sample/public"
+                            }
+                        ],
+                        "styles": ["projects/ngx-configuration-sample/src/styles.scss"],
+                        "scripts": []
+                    }
+                },
+                "lint": {
+                    "builder": "@angular-eslint/builder:lint",
+                    "options": {
+                        "lintFilePatterns": ["projects/ngx-configuration-sample/**/*.ts", "projects/ngx-configuration-sample/**/*.html"],
+                        "eslintConfig": "projects/ngx-configuration-sample/eslint.config.js"
+                    }
+                }
+            }
         }
-      }
+    },
+    "cli": {
+        "schematicCollections": ["@angular-eslint/schematics"],
+        "analytics": false,
+        "cache": {
+            "enabled": false
+        }
     }
-  },
-  "cli": {
-    "schematicCollections": [
-      "@angular-eslint/schematics"
-    ]
-  }
 }

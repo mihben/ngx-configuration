@@ -1,0 +1,13 @@
+{
+  "scripts": {
+    "test": "jest",
+    "lint": "ng lint",
+    "pretty": "prettier --write \"./**/*.{js,jsx,mjs,cjs,ts,tsx,json}\""
+  },
+  "devDependencies": {
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.2.1",
+    "prettier": "3.3.3",
+    "prettier-eslint": "^16.3.0"
+  }
+}
