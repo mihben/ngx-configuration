@@ -1,6 +1,7 @@
 import { valueOf, valueOfEnum } from '../lib/decorators/value-of-decorator';
 import { required } from '../lib/decorators/required-decorator';
 import { range } from '../lib/decorators/range-decorator';
+import { baseAddress } from '../lib/decorators/format-decorator';
 
 export enum TestEnum {
     POST = 'post',
@@ -12,6 +13,7 @@ export const testArray = ['api/users', 'api/permissions'];
 
 export class TestOptions {
     @required()
+    @baseAddress()
     public baseAddress!: string;
 
     @valueOf(testArray)

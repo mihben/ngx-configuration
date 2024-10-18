@@ -4,7 +4,7 @@ import { testArray, TestEnum, TestOptions } from './test-options';
 export class OptionsFaker {
     public static random(): TestOptions {
         const result = new TestOptions();
-        result.baseAddress = faker.string.sample();
+        result.baseAddress = `${faker.internet.url()}/`;
         result.path = faker.helpers.arrayElement(testArray);
         result.method = faker.helpers.enumValue(TestEnum);
         result.port = faker.internet.port();
