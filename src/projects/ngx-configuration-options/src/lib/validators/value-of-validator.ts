@@ -1,4 +1,4 @@
-import { getValueOf } from '../decorators/value-of-decorators';
+import { getValueOf } from '../decorators/value-of-decorator';
 import { ValidationResult } from '../validation-result';
 
 export class ValueOfValidator {

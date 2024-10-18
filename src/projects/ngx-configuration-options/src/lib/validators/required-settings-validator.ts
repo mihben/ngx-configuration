@@ -1,4 +1,4 @@
-import { getRequired } from '../decorators/required-decorators';
+import { getRequired } from '../decorators/required-decorator';
 import { ValidationResult } from '../validation-result';
 
 export class RequiredSettingsValidator {

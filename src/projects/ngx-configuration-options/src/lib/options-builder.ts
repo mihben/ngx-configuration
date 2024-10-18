@@ -3,6 +3,7 @@ import { Configuration } from '../../../ngx-configuration-core/src/public-api';
 import { InvalidConfigurationError } from './invalid-configuration-error';
 import { ValidationResult } from './validation-result';
 import { RequiredSettingsValidator } from './validators/required-settings-validator';
+import { ValueOfValidator } from './validators/value-of-validator';
 
 @Injectable()
 export class OptionsBuilder<TOptions extends object> {
@@ -50,6 +51,7 @@ export class OptionsBuilder<TOptions extends object> {
 
     public validateDecorators(): this {
         this._validate.push(RequiredSettingsValidator.validate);
+        this._validate.push(ValueOfValidator.validate);
 
         return this;
     }

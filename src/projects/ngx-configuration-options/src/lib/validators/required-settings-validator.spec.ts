@@ -13,7 +13,7 @@ describe('RequiredSettingsValidator', () => {
         expect(result.success).toBeTruthy();
     });
 
-    test.each([undefined, null, ''])('[RSV-002] - Invalid Configuration (%1)', value => {
+    test.each([undefined, null, ''])('[RSV-002] - Invalid Configuration (%p)', value => {
         // Arrange
         const options = OptionsFaker.setBaseAddress(value);
 
