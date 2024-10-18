@@ -1,6 +1,6 @@
 {
-    "name": "ngx-configuration-core-dev",
-    "version": "1.0.0-alpha.1",
+    "name": "ngx-configuration-options",
+    "version": "0.0.1",
     "peerDependencies": {
         "@angular/common": "^18.2.0",
         "@angular/core": "^18.2.0"

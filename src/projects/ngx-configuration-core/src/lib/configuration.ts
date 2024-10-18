@@ -1,5 +1,7 @@
+import { Injectable } from '@angular/core';
 import { ConfigurationStore } from './configuration-store';
 
+@Injectable({ providedIn: 'root' })
 export class Configuration {
     private _stores: ConfigurationStore[] = [];
 

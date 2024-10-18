@@ -28,7 +28,7 @@
                     "builder": "@angular-eslint/builder:lint",
                     "options": {
                         "lintFilePatterns": ["projects/ngx-configuration-core/**/*.ts", "projects/ngx-configuration-core/**/*.html"],
-                        "eslintConfig": "projects/ngx-configuration-core/eslint.config.js"
+                        "eslintConfig": "eslint.config.js"
                     }
                 }
             }
@@ -128,6 +128,36 @@
                     "options": {
                         "lintFilePatterns": ["projects/ngx-configuration-sample/**/*.ts", "projects/ngx-configuration-sample/**/*.html"],
                         "eslintConfig": "projects/ngx-configuration-sample/eslint.config.js"
+                    }
+                }
+            }
+        },
+        "ngx-configuration-options": {
+            "projectType": "library",
+            "root": "projects/ngx-configuration-options",
+            "sourceRoot": "projects/ngx-configuration-options/src",
+            "prefix": "lib",
+            "architect": {
+                "build": {
+                    "builder": "@angular-devkit/build-angular:ng-packagr",
+                    "options": {
+                        "project": "projects/ngx-configuration-options/ng-package.json"
+                    },
+                    "configurations": {
+                        "production": {
+                            "tsConfig": "projects/ngx-configuration-options/tsconfig.lib.prod.json"
+                        },
+                        "development": {
+                            "tsConfig": "projects/ngx-configuration-options/tsconfig.lib.json"
+                        }
+                    },
+                    "defaultConfiguration": "production"
+                },
+                "lint": {
+                    "builder": "@angular-eslint/builder:lint",
+                    "options": {
+                        "lintFilePatterns": ["projects/ngx-configuration-options/**/*.ts", "projects/ngx-configuration-options/**/*.html"],
+                        "eslintConfig": "eslint.config.js"
                     }
                 }
             }
