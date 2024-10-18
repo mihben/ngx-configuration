@@ -6,6 +6,8 @@ import { ConfigurationLoaderService } from '../../../ngx-configuration-core/src/
 import { provideHttpClient } from '@angular/common/http';
 import { environment } from '../environments/environment';
 import { defaultConfiguration, provideConfiguration } from '../../../ngx-configuration-core/src/provideConfiguration';
+import { SampleOptions } from './sample-options';
+import { provideOptions } from '../../../ngx-configuration-options/src/provideOptions';
 
 export function ConfigurationLoader(loader: ConfigurationLoaderService) {
     return () => loader.loadAsync();
@@ -15,6 +17,7 @@ export const appConfig: ApplicationConfig = {
     providers: [
         provideZoneChangeDetection({ eventCoalescing: true }),
         provideRouter(routes),
+        provideOptions(SampleOptions, builder => builder.bind('Sample').validateDecorators()),
         provideConfiguration(builder => defaultConfiguration(builder, environment.environment)),
         provideHttpClient(),
     ],
