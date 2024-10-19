@@ -1,3 +1,4 @@
+import { Injectable } from '@angular/core';
 import { Configuration } from '../../../ngx-configuration-core/src/public-api';
 import { InvalidConfigurationError } from './invalid-configuration-error';
 import { ValidationResult } from './validation-result';
@@ -11,6 +12,7 @@ export interface IOptionsConfigurator<TOptions extends object> {
     validateDecorators(): IOptionsConfigurator<TOptions>;
 }
 
+@Injectable({ providedIn: 'root' })
 export class OptionsBuilder<TOptions extends object> implements IOptionsConfigurator<TOptions> {
     private readonly _configure: ((options: TOptions, configuration: Configuration) => void)[] = [];
     private readonly _validate: ((options: TOptions) => ValidationResult)[] = [];
