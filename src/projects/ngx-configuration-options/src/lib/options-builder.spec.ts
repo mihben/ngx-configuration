@@ -1,6 +1,6 @@
 import { createServiceFactory } from '@ngneat/spectator/jest';
 import { OptionsBuilder } from './options-builder';
-import { TestEnum, TestOptions } from '../__test_utils__/test-options';
+import {  TestOptions } from '../__test_utils__/test-options';
 import { faker } from '@faker-js/faker';
 import { Configuration } from '../../../ngx-configuration-core/src/public-api';
 import { InvalidConfigurationError } from './invalid-configuration-error';
@@ -18,7 +18,7 @@ describe('OptionsBuilder', () => {
         const settings = faker.string.sample();
 
         // Act
-        const result = sut.service.configure(options => (options.baseAddress = settings)).build(TestOptions);
+        const result = sut.service.configure(options => (options.baseAddress = settings)).build();
 
         // Assert
         expect(result.baseAddress).toEqual(settings);
@@ -32,7 +32,7 @@ describe('OptionsBuilder', () => {
         const builder = sut.service.configure(options => (options.baseAddress = faker.string.sample()));
 
         // Act
-        const result = builder.configure(options => (options.baseAddress = settings)).build(TestOptions);
+        const result = builder.configure(options => (options.baseAddress = settings)).build();
 
         // Assert
         expect(result.baseAddress).toEqual(settings);
@@ -47,7 +47,7 @@ describe('OptionsBuilder', () => {
         const result = sut.service
             .configure(options => (options.baseAddress = faker.string.sample()))
             .configure(options => (options.baseAddress = settings))
-            .build(TestOptions);
+            .build();
 
         // Assert
         expect(result.baseAddress).toEqual(settings);
@@ -66,7 +66,7 @@ describe('OptionsBuilder', () => {
         });
 
         // Act
-        const result = sut.service.bind(section).build(TestOptions);
+        const result = sut.service.bind(section).build();
 
         // Assert
         expect(result.baseAddress).toEqual(settings);
@@ -88,7 +88,7 @@ describe('OptionsBuilder', () => {
         const result = sut.service
             .bind(section)
             .configure(options => (options.baseAddress = settings))
-            .build(TestOptions);
+            .build();
 
         // Assert
         expect(result.baseAddress).toEqual(settings);
@@ -105,7 +105,7 @@ describe('OptionsBuilder', () => {
             sut.service
                 .configure(options => (options.baseAddress = settings))
                 .validate(options => ValidationResult.invalid(`Invalid settings: ${options.baseAddress}`))
-                .build(TestOptions)
+                .build()
         ).toThrow(InvalidConfigurationError);
     });
 
@@ -120,7 +120,7 @@ describe('OptionsBuilder', () => {
             sut.service
                 .configure(options => (options.baseAddress = settings))
                 .validate(() => ValidationResult.valid())
-                .build(TestOptions)
+                .build()
         ).not.toThrow(InvalidConfigurationError);
     });
 });
