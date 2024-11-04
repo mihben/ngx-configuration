@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { Configuration } from '../../../ngx-configuration-core/src/public-api';
+import { SampleOptions } from './sample-options';
 
 @Component({
     selector: 'app-root',
@@ -11,8 +11,5 @@ import { Configuration } from '../../../ngx-configuration-core/src/public-api';
 export class AppComponent {
     title = 'Sample';
 
-    constructor(public readonly configuration: Configuration) {
-        console.log(`BaseAddress: ${configuration.get('BaseAddress')}`);
-        console.log(`Path: ${configuration.get('Path')}`);
-    }
+    constructor(public readonly options: SampleOptions) {}
 }

@@ -3,7 +3,7 @@ import { ConfigurationLoaderService } from './configuration-loader.service';
 import { createServiceFactory } from '@ngneat/spectator';
 import { ConfigurationSourceStoreService } from './configuration-source-store.service';
 import { faker } from '@faker-js/faker';
-import { Configuration } from './configuration';
+import { Configuration } from '../public-api';
 
 describe('Service: [CNL] - ConfigurationLoader', () => {
     let configuration: Configuration | undefined = undefined;

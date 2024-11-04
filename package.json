@@ -9,8 +9,5 @@
     "eslint-plugin-prettier": "^5.2.1",
     "prettier": "3.3.3",
     "prettier-eslint": "^16.3.0"
-  },
-  "dependencies": {
-    "@faker-js/faker": "^9.0.3"
   }
 }

@@ -1,6 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { IConfigurationSource } from './configuration-source';
-import { JsonConfigurationSourceOptions, JsonConfigurationSourceService } from './sources/json-configuration-source.service';
+import { JsonConfigurationSourceService } from './sources/json-configuration-source.service';
+import { JsonConfigurationSourceOptions } from './sources/json-configuration-source-options';
 import { HttpClient } from '@angular/common/http';
 
 @Injectable({

@@ -1,4 +1,5 @@
-import { JsonConfigurationSourceOptions, JsonConfigurationSourceService } from './json-configuration-source.service';
+import { JsonConfigurationSourceService } from './json-configuration-source.service';
+import { JsonConfigurationSourceOptions } from './json-configuration-source-options';
 import { createHttpFactory } from '@ngneat/spectator';
 import { faker } from '@faker-js/faker';
 import { HttpClient, HttpErrorResponse, HttpStatusCode } from '@angular/common/http';

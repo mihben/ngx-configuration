@@ -9,7 +9,8 @@ describe('Service: [CNF] - Configuration', () => {
         const value = faker.string.sample();
 
         const sut = new Configuration();
-        sut.initialize([ConfigurationStoreFaker.with(key, faker.string.sample()), ConfigurationStoreFaker.with(key, value)]);
+        sut.add(ConfigurationStoreFaker.with(key, faker.string.sample()));
+        sut.add(ConfigurationStoreFaker.with(key, value));
 
         // Act
         const result = sut.get(key);
@@ -21,7 +22,7 @@ describe('Service: [CNF] - Configuration', () => {
     it('[CNF-002] - Get not existing configuration', () => {
         // Arrange
         const sut = new Configuration();
-        sut.initialize([ConfigurationStoreFaker.with(faker.string.sample(), faker.string.sample())]);
+        sut.add(ConfigurationStoreFaker.with(faker.string.sample(), faker.string.sample()));
 
         // Act
         const result = sut.get(faker.string.sample());

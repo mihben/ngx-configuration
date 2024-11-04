@@ -4,6 +4,7 @@ import { ConfigurationStore } from '../configuration-store';
 
 import { HttpClient, HttpStatusCode } from '@angular/common/http';
 import { lastValueFrom } from 'rxjs';
+import { JsonConfigurationSourceOptions } from './json-configuration-source-options';
 
 @Injectable({
     providedIn: 'root',
@@ -47,9 +48,4 @@ export class JsonConfigurationSourceService implements IConfigurationSource {
             } else store[`${section}${key}`] = value;
         }
     }
-}
-
-export class JsonConfigurationSourceOptions {
-    public path!: string;
-    public optional = false;
 }

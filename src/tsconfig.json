@@ -12,7 +12,12 @@
         "skipLibCheck": true,
         "isolatedModules": true,
         "paths": {
-            "ngx-configuration-core": ["./dist/ngx-configuration-core"]
+            "ngx-configuration-core": [
+              "./dist/ngx-configuration-core"
+            ],
+            "ngx-configuration-options": [
+              "./dist/ngx-configuration-options"
+            ]
         },
         "types": ["node", "jest"],
         "esModuleInterop": true,

@@ -8,8 +8,10 @@ export const defaultConfiguration = (builder: ConfigurationSourceStoreService, e
     return builder;
 };
 
-function initializer(loader: ConfigurationLoaderService) {
-    return () => loader.loadAsync();
+function initializer(loader: ConfigurationLoaderService): () => Promise<void> {
+    return async () => {
+        await loader.loadAsync();
+    };
 }
 
 export function provideConfiguration(build: (store: ConfigurationSourceStoreService) => void): Provider[] {
