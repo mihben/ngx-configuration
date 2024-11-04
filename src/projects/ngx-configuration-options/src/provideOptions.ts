@@ -7,7 +7,7 @@ export function provideOptions<TOptions extends object>(type: new () => TOptions
         {
             provide: type,
             useFactory: (configuration: Configuration) => {
-                return (build(new OptionsBuilder<TOptions>(configuration, new type())) as OptionsBuilder<TOptions>).build();
+                return (build(OptionsBuilder.create(configuration, new type())) as OptionsBuilder<TOptions>).build();
             },
             deps: [Configuration, APP_INITIALIZER],
         },
