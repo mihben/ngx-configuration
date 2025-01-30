@@ -2,9 +2,23 @@
 The `ngx-configuration` packages provide ease-to-use solution for handling configuration in [Angular](https://angular.dev) webapplications.
 
 With the help of the `ngx-configuration-core` package the application configurations can be injected to the application. Also capable to handle different settings for different environments (Production, Development...).</br>
-The `ngx-configuration-options` package is capable to map different sections of the red configuration to separated objects, validate the configurations and inject the neccessary configurations to the dependent services.
+The `ngx-configuration-options` package is capable to map different sections of the configuration to separated objects, validate the configurations and inject the neccessary configurations to the dependent services.
 
 [![Quality gate](https://sonarcloud.io/api/project_badges/quality_gate?project=mihben_ngx-configuration)](https://sonarcloud.io/summary/new_code?id=mihben_ngx-configuration)
+
+## Supported Angular Versions
+
+### ngx-configuration-core
+| Version | Supported Angular Version    |
+|:---------|:---------------------------:|
+| 18.x.x   | >18                         |
+
+### ngx-configuration-options
+| Version | Supported Angular Version    |
+|:---------|:---------------------------:|
+| 18.x.x   | >18                         |
+
+## Getting Started
 
 ## Workflow
 ### Loading Configurations
