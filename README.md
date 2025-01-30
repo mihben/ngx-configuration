@@ -7,7 +7,47 @@ The `ngx-configuration-options` package is capable to map different sections of 
 
 [![Quality gate](https://sonarcloud.io/api/project_badges/quality_gate?project=mihben_ngx-configuration)](https://sonarcloud.io/summary/new_code?id=mihben_ngx-configuration)
 
-FLOW
+## Flow
+### Loading Configurations
+```mermaid
+sequenceDiagram
+    box Client Side
+    participant a as Application
+    participant c as ConfigurationStore
+    end
+
+    participant s as Server    
+
+    note right of a: Starting the Application
+    loop Configured Configurations
+    a->>s: Query Configuration
+    activate s
+    s-->>a: Provide Configuration
+    deactivate s
+    a->>c: Add Configuration
+    end
+```
+
+### Resolve Options
+```mermaid
+sequenceDiagram
+    participant a as Application
+    participant c as ConfigurationStore
+
+    note right of a: Runnning the Application
+    a->>c: Resolve Options
+    activate c
+        loop Until value is found
+            c->>c: Get Configuration Value
+        end
+        alt Valid
+            c-->>a: Provide Options
+        else Invalid
+            c-->a: Throw Error
+        end
+    deactivate c
+```
+    
 
 ## Getting Started
 1. Install packages:
