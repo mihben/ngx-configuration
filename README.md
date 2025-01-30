@@ -7,7 +7,7 @@ The `ngx-configuration-options` package is capable to map different sections of 
 
 [![Quality gate](https://sonarcloud.io/api/project_badges/quality_gate?project=mihben_ngx-configuration)](https://sonarcloud.io/summary/new_code?id=mihben_ngx-configuration)
 
-## Flow
+## Workflow
 ### Loading Configurations
 ```mermaid
 sequenceDiagram
