@@ -1,5 +1,4 @@
 # ngx-configuration
-
 The `ngx-configuration` packages provide ease-to-use solution for handling configuration in [Angular](https://angular.dev) webapplications.
 
 With the help of the `ngx-configuration-core` package the application configurations can be injected to the application. Also capable to handle different settings for different environments (Production, Development...).</br>
@@ -60,7 +59,7 @@ npm install ngx-configuration-options;
 ```javascript
 providers: [
     ...
-    provideConfiguration(builder => defaultConfiguration(builder, #ENVIRONMENT#)),
+    provideConfiguration(builder => builder.registerJson(builder, #ENVIRONMENT#)),
     provideOptions(#OPTIONS_TYPE#, builder => builder.bind('#CONFIGURATION_SECTION#').
     ...
 ]
@@ -99,13 +98,6 @@ providers: [
 
 ## Tutorials
 Tutorials can be found [here]().
-
-### Use Multiple Environments (Static)
-
-
-### Use Multiple Environments (Dynamic)
-
-### Use Options
 
 ## Sample Code
 
