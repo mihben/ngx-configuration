@@ -76,7 +76,7 @@ get() {
 ```
 
 ## Documentations
-- [Tutorials](wiki/Tutorial)
+- [Tutorials](https://github.com/mihben/ngx-configuration/wiki/Tutorial)
 - API Documentation
 - Release Notes
 
