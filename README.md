@@ -28,8 +28,7 @@ The `ngx-configuration-core` and `ngx-configuration-options` packages make possi
 ## Getting Started
 1. Install packages:
 ```bash
-npm install ngx-configuration-core;
-npm install ngx-configuration-options;
+npm install ngx-configuration-core ngx-configuration-options
 ```
 
 2. Create `BackendOptions.ts`:
