@@ -75,6 +75,10 @@ get() {
 }
 ```
 
+## Sample Code
+Sample application can be found in the repository (`ngx-configuration-sample`).
+
+
 ## Documentations
 - [Tutorials](https://github.com/mihben/ngx-configuration/wiki/Tutorial)
 - API Documentation
