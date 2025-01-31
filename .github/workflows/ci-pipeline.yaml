@@ -5,7 +5,6 @@ on:
     push:
         branches: [develop, main]
     pull_request:
-        types: [ready_for_review]
 
 permissions:
     checks: write
