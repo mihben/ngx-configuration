@@ -1,66 +1,29 @@
 # ngx-configuration
-The `ngx-configuration` packages provide ease-to-use solution for handling configuration in [Angular](https://angular.dev) webapplications.
-
-With the help of the `ngx-configuration-core` package the application configurations can be injected to the application. Also capable to handle different settings for different environments (Production, Development...).</br>
-The `ngx-configuration-options` package is capable to map different sections of the configuration to separated objects, validate the configurations and inject the neccessary configurations to the dependent services.
-
 [![Quality gate](https://sonarcloud.io/api/project_badges/quality_gate?project=mihben_ngx-configuration)](https://sonarcloud.io/summary/new_code?id=mihben_ngx-configuration)
 
-## Supported Angular Versions
+The `ngx-configuration` packages provide ease-to-use solution for handling dynamic configuration in [Angular](https://angular.dev) webapplications. 
+In an [Angular](https://angular.dev) application the configurations are built-in the application code, it means have to be defined build time. 
+The `ngx-configuration-core` and `ngx-configuration-options` packages make possible to define the configurations runtime, use those as separated objects in the application and validate the defined values.
 
-### ngx-configuration-core
-| Version | Supported Angular Version    |
-|:---------|:---------------------------:|
-| 18.x.x   | >18                         |
+### Features
+- Reading JSON configuration from external source
+- Handling different environments
+- Bind configuration sections to objects
+- Validate the configuration
 
-### ngx-configuration-options
-| Version | Supported Angular Version    |
-|:---------|:---------------------------:|
-| 18.x.x   | >18                         |
+### Supported Versions
 
-## Getting Started
+| Package                   | Version | Supported Angular Version |
+| :------------------------ | :------ | :-----------------------: |
+| ngx-configuration-core    | 1.x.x   |            >18            |
+| ngx-configuration-options | 1.x.x   |            >18            |
 
-## Workflow
-### Loading Configurations
-```mermaid
-sequenceDiagram
-    box Client Side
-    participant a as Application
-    participant c as ConfigurationStore
-    end
-
-    participant s as Server    
-
-    note right of a: Starting the Application
-    loop Configured Configurations
-    a->>s: Query Configuration
-    activate s
-    s-->>a: Provide Configuration
-    deactivate s
-    a->>c: Add Configuration
-    end
-```
-
-### Resolve Options
-```mermaid
-sequenceDiagram
-    participant a as Application
-    participant c as ConfigurationStore
-
-    note right of a: Runnning the Application
-    a->>c: Resolve Options
-    activate c
-        loop Until value is found
-            c->>c: Get Configuration Value
-        end
-        alt Valid
-            c-->>a: Provide Options
-        else Invalid
-            c-->a: Throw Error
-        end
-    deactivate c
-```
-    
+### Workflow  
+1. Loading the application
+2. Reading configurations from registered sources
+3. Binding configuration sections to options
+4. Resolving registered options in a service (before resolving it the configurations are validated)
+5. Using the configuration value via resolved options
 
 ## Getting Started
 1. Install packages:
@@ -69,30 +32,9 @@ npm install ngx-configuration-core;
 npm install ngx-configuration-options;
 ```
 
-2. Registrate configurations and options in `app.config.ts`:
-```javascript
-providers: [
-    ...
-    provideConfiguration(builder => builder.registerJson(builder, #ENVIRONMENT#)),
-    provideOptions(#OPTIONS_TYPE#, builder => builder.bind('#CONFIGURATION_SECTION#').
-    ...
-]
-```
-
-### Sample
-`apsettings.json` as asset:
-```json
-{
-    "Backend": {
-        "BaseAddress": "https://backend.com/",
-        "Path": "api"
-    }
-}
-```
-
-Declaration of `BackendOptions`:
-```javascript
-export interface BackendOptions {
+2. Create `BackendOptions.ts`:
+```ts
+export class BackendOptions {
     required()
     baseAddress: string;
     required()
@@ -100,8 +42,18 @@ export interface BackendOptions {
 }
 ```
 
-Registrations in `app.config.ts`:
-```javascript
+3. Create `appsettings.json` as asset
+```json
+{
+    "Backend": {
+        "BaseAddress": "https://backend.service/",
+        "Path": "api/"
+    }
+}
+```
+
+5. Registrate `appsettings.json` and `BackendOptions` in `app.config.ts`:
+```ts
 providers: [
     ...
     providerConfiguration(builder => builder.registerJson('appsettings.json')),
@@ -110,10 +62,10 @@ providers: [
 ]
 ```
 
-## Tutorials
-Tutorials can be found [here]().
-
-## Sample Code
+## Documentations
+- Tutorials
+- API Documentation
+- Release Notes
 
 ## Licence
 **MIT**
