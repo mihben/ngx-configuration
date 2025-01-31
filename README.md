@@ -76,7 +76,7 @@ get() {
 ```
 
 ## Documentations
-- Tutorials
+- [Tutorials](wiki/Tutorial)
 - API Documentation
 - Release Notes
 
