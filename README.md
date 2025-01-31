@@ -56,9 +56,23 @@ export class BackendOptions {
 providers: [
     ...
     providerConfiguration(builder => builder.registerJson('appsettings.json')),
-    providerOptions(BackendOptions, builder => builder.bind("Backend")),
+    providerOptions(BackendOptions, builder => builder.bind('Backend')),
     ...
 ]
+```
+
+6. Using `BackendOptions`
+```ts
+...
+constructor(private readonly options: BackendOptions,
+            private readonly http: HttpClient) {
+
+}
+
+get() {
+    return this.httpClient.get<void>(`${options.baseAddress}${options.path}\get`)
+        subscribe();
+}
 ```
 
 ## Documentations
