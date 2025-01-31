@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { SampleOptions } from './sample-options';
+import { BackendOptions } from './backend-options';
 
 @Component({
     selector: 'app-root',
@@ -11,5 +11,5 @@ import { SampleOptions } from './sample-options';
 export class AppComponent {
     title = 'Sample';
 
-    constructor(public readonly options: SampleOptions) {}
+    constructor(public readonly options: BackendOptions) {}
 }
