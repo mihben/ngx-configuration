@@ -28,10 +28,6 @@ jobs:
                 node-version: ['20.x']
 
         steps:
-            - uses: testspace-com/setup-testspace@v1
-              with:
-                  domain: ${{github.repository_owner}}
-
             - name: Checkout Code
               uses: actions/checkout@v4
 
@@ -48,5 +44,10 @@ jobs:
                   npm install jest-junit --save-devs
                   npm run test:ci
 
+            - name: Install TestSpace CLI
+              uses: testspace-com/setup-testspace@v1
+              with:
+                  domain: ${{github.repository_owner}}
+
             - name: Publish Test Results
-              run: testspace ${{ env.TEST_RESULT_DIR }}/*.xml
+              run: testspace src/${{ env.TEST_RESULT_DIR }}/*.xml
