@@ -42,7 +42,7 @@ jobs:
             - name: Build
               run: |
                   npm ci 
-                  npm run build --if-present
+                  npm run buil --if-present
 
             - name: Test
               env:
