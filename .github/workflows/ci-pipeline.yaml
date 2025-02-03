@@ -31,6 +31,13 @@ jobs:
             - name: Checkout Code
               uses: actions/checkout@v4
 
+            - name: Cache node_modules
+              uses: actions/cache@v4
+              with:
+                  key: ${{ runner.os }}-node_modules-hashfiles('**/package.lock.json')
+                  path: node_modules
+                  restore-keys: ${{ runner.os }}-node_modules-hashfiles('**/package.lock.json')
+
             - name: Build
               run: |
                   npm ci 
