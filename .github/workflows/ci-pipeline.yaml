@@ -1,5 +1,5 @@
 name: CI Pipeline
-run-name: 'PR: #${{ github.event.pull_request.number }} - ${{ github.event.pull_request.title }} (#${{ github.run_number }})'
+run-name: 'PR: #${{ github.event.pull_request.number }} - ${{ github.event.pull_request.title }}'
 
 on:
     pull_request:
