@@ -50,6 +50,4 @@ jobs:
                   domain: ${{github.repository_owner}}
 
             - name: Publish Test Results
-              run: |
-                  ls -a
-                  testspace ${{ env.TEST_RESULT_DIR }}/tests.unit.xml
+              run: testspace ${{ env.TEST_RESULT_DIR }}/tests.unit.xml coverage/clover.xml
