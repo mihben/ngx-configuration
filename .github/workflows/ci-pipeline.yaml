@@ -3,6 +3,10 @@ run-name: 'PR: #${{ github.event.pull_request.number }} - ${{ github.event.pull_
 
 on:
     pull_request:
+        branches:
+            - main
+            - develop
+            - 'release/**'
 
 permissions:
     checks: write
