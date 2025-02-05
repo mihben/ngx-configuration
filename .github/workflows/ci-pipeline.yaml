@@ -18,6 +18,8 @@ env:
 jobs:
     install-dependencies:
         runs-on: ubuntu-latest
+        outputs:
+          deps-cache-key: ${{ steps.cache-key.outputs.CACHE_KEY }}
 
         steps:
           - name: Checkout Code
@@ -25,8 +27,6 @@ jobs:
 
           - name: Calculate Cache Key
             id: cache-key
-            outputs:
-              deps-cache-key: ${{ steps.cache-key.outputs.CACHE_KEY }}
             uses: echo "CACHE_KEY=${{ runner.os }}-node-modules-${{ hashFiles('src/package-lock.json') }}" >> "$GITHUB_OUTPUT"
 
           - name: Cache node_modules
@@ -41,33 +41,52 @@ jobs:
             if: ${{ steps.node_modules_cache.outputs.cache-hit }}
             run: npm ci
 
-    build-core:
-      needs: install-dependecies
-
-      - name: Build
-        run: npm run build ngx-configuration
+    build-core:         
+        needs: [install-dependencies]
+        runs-on: ubuntu-latest
+        
+        steps:
+            - name: Download Dependecies
+              uses: actions/cache@v3
+              id: cache
+              with:
+                path: src/node_modules
+                key: ${{ needs.install-dependencies.outputs.deps-cache-key }}
+        
+            - name: Build
+              run: npm run build ngx-configuration
 
     build-options:
-      needs: install-dependecies
-
-      - name: Build
-        run: npm run build ngx-configruation-options
-
+        needs: [install-dependencies]
+        runs-on: ubuntu-latest
+        
+        steps:
+            - name: Download Dependecies
+              uses: actions/cache@v3
+              id: cache
+              with:
+                path: src/node_modules
+                key: ${{ needs.install-dependencies.outputs.deps-cache-key }}
+                
+            - name: Build
+              run: npm run build ngx-options
+    
     test:
       needs: [build-core, build-options]
-
-      - name: Test
-        env:
-            JEST_JUNIT_OUTPUT_FILE: ${{ env.TEST_RESULT_DIR }}/tests.unit.xml
-            JEST_JUNIT_REPORT_TEST_SUITE_ERRORS: true
-        run: |
-            npm install jest-junit --save-devs
-            npm run test:ci
-
-      - name: Install TestSpace CLI
-        uses: testspace-com/setup-testspace@v1
-        with:
-            domain: ${{ github.repository_owner }}
-
-      - name: Publish Test Results
-        run: testspace ${{ env.TEST_RESULT_DIR }}/tests.unit.xml coverage/clover.xml
+      runs-on: ubuntu-latest
+      steps:
+          - name: Test
+            env:
+                JEST_JUNIT_OUTPUT_FILE: ${{ env.TEST_RESULT_DIR }}/tests.unit.xml
+                JEST_JUNIT_REPORT_TEST_SUITE_ERRORS: true
+            run: |
+                npm install jest-junit --save-devs
+                npm run test:ci
+    
+          - name: Install TestSpace CLI
+            uses: testspace-com/setup-testspace@v1
+            with:
+                domain: ${{ github.repository_owner }}
+    
+          - name: Publish Test Results
+            run: testspace ${{ env.TEST_RESULT_DIR }}/tests.unit.xml coverage/clover.xml
