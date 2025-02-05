@@ -127,6 +127,6 @@ jobs:
           working-directory: dist
 
         - name: Publish
-          run: npm publish ngx-configuration-core
+          run: npm publish *.tgz
           working-directory: packages
 
