@@ -59,6 +59,7 @@ jobs:
         
             - name: Build
               run: npm run build ngx-configuration -- --configuration production
+              working-directory: src
 
     build-options:
         needs: [install-dependencies]
@@ -77,6 +78,7 @@ jobs:
                 
             - name: Build
               run:  npm run build ngx-options -- --configuration production
+              working-directory: src
     
     test:
       needs: [build-core, build-options]
