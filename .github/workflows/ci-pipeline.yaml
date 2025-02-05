@@ -41,7 +41,7 @@ jobs:
                 path: src/node_modules
 
           - name: Restore Dependencies
-            if: ${{ steps.node_modules_cache.outputs.cache-hit }} != 'true'
+            if: ${{ steps.node_modules_cache.outputs.cache-hit }} != true
             run: npm ci
 
     build-core:         
@@ -66,7 +66,7 @@ jobs:
               uses: actions/upload-artifact@v4
               with:
                 name: ngx-configuration-core
-                path: dist/ngx-configuration-core
+                path: src/dist/ngx-configuration-core
 
     # build-options:
     #     needs: [install-dependencies]
