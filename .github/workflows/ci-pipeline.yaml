@@ -127,6 +127,8 @@ jobs:
           working-directory: dist
 
         - name: Publish
-          run: npm publish *.tgz
+          run: npm publish --provenance --access public *.tgz
+          env:
+            NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           working-directory: packages
 
