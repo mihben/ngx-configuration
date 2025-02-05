@@ -37,7 +37,7 @@ jobs:
                 path: src/node_modules
 
           - name: Restore Dependencies
-            if: ${{ steps.node_modules_cache.outputs.cache-hit }}
+            if: ${{ steps.node_modules_cache.outputs.cache-hit }} != 'true'
             run: npm ci
             working-directory: src
 
