@@ -41,7 +41,7 @@ jobs:
                 path: src/node_modules
 
           - name: Restore Dependencies
-            if: ${{ steps.node_modules_cache.outputs.cache-hit }} != true
+            if: steps.node_modules_cache.outputs.cache-hit != 'true'
             run: npm ci
 
     build-core:         
@@ -109,4 +109,22 @@ jobs:
     
           - name: Publish Test Results
             run: testspace ${{ env.TEST_RESULT_DIR }}/tests.unit.xml coverage/clover.xml
+
+    publish-core:
+      needs: [test]
+      runs-on: ubuntu-latest
+      steps:
+        - name: Download Artifacts
+          uses: actions/download-artifact@v4
+          with:
+            name: ngx-configuration-core
+            path: dist
+
+        - name: Pack
+          run: npm pack --pack-destination ../package
+          working-directory: dist
+
+        - name: Publish
+          run: npm publish ngx-configuration-core
+          working-directory: package
 
