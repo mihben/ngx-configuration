@@ -59,7 +59,7 @@ jobs:
         
             - name: Build
               run: |
-                  ls
+                  cd src
                   npm run build ngx-configuration-core -- --configuration production
 
     build-options:
@@ -79,7 +79,7 @@ jobs:
                 
             - name: Build              
               run: |
-                  ls
+                  cd src
                   npm run build ngx-configuration-options -- --configuration production
     
     test:
