@@ -15,6 +15,10 @@ permissions:
 env:
     TEST_RESULT_DIR: test-results
 
+defaults:
+  run:
+    working-directory:  src    
+
 jobs:
     install-dependencies:
         runs-on: ubuntu-latest
