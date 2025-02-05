@@ -1,5 +1,5 @@
 {
-    "name": "ngx-configuration-core-dev",
+    "name": "ngx-configuration-core",
     "version": "1.0.0-alpha.1",
     "peerDependencies": {
         "@angular/common": "^18.2.0",
