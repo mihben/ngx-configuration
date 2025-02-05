@@ -121,10 +121,12 @@ jobs:
             path: dist
 
         - name: Pack
-          run: npm pack --pack-destination ../package
+          run: |
+            mkdir ../packages
+            npm pack --pack-destination ../packages
           working-directory: dist
 
         - name: Publish
           run: npm publish ngx-configuration-core
-          working-directory: package
+          working-directory: packages
 
