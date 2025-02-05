@@ -58,8 +58,9 @@ jobs:
                 key: ${{ needs.install-dependencies.outputs.deps-cache-key }}
         
             - name: Build
-              run: npm run build ngx-configuration-core -- --configuration production
-              working-directory: src
+              run: |
+                  ls
+                  npm run build ngx-configuration-core -- --configuration production
 
     build-options:
         needs: [install-dependencies]
@@ -76,9 +77,10 @@ jobs:
                 path: src/node_modules
                 key: ${{ needs.install-dependencies.outputs.deps-cache-key }}
                 
-            - name: Build
-              run:  npm run build ngx-configuration-options -- --configuration production
-              working-directory: src
+            - name: Build              
+              run: |
+                  ls
+                  npm run build ngx-configuration-options -- --configuration production
     
     test:
       needs: [build-core, build-options]
