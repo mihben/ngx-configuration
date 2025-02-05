@@ -47,6 +47,9 @@ jobs:
         runs-on: ubuntu-latest
         
         steps:
+            - name: Checkout Code
+              uses: actions/checkout@v4
+            
             - name: Download Dependecies
               uses: actions/cache@v3
               id: cache
@@ -55,15 +58,16 @@ jobs:
                 key: ${{ needs.install-dependencies.outputs.deps-cache-key }}
         
             - name: Build
-              run: |
-                  cd src
-                  npm run build ngx-configuration -- --configuration production
+              run: npm run build ngx-configuration -- --configuration production
 
     build-options:
         needs: [install-dependencies]
         runs-on: ubuntu-latest
         
         steps:
+            - name: Checkout Code
+              uses: actions/checkout@v4
+              
             - name: Download Dependecies
               uses: actions/cache@v3
               id: cache
@@ -72,14 +76,15 @@ jobs:
                 key: ${{ needs.install-dependencies.outputs.deps-cache-key }}
                 
             - name: Build
-              run: |
-                  cd src
-                  npm run build ngx-options -- --configuration production
+              run:  npm run build ngx-options -- --configuration production
     
     test:
       needs: [build-core, build-options]
       runs-on: ubuntu-latest
       steps:
+          - name: Checkout Code
+            uses: actions/checkout@v4
+              
           - name: Test
             env:
                 JEST_JUNIT_OUTPUT_FILE: ${{ env.TEST_RESULT_DIR }}/tests.unit.xml
