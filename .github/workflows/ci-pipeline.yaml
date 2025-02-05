@@ -27,7 +27,7 @@ jobs:
 
           - name: Calculate Cache Key
             id: cache-key
-            uses: echo "CACHE_KEY=${{ runner.os }}-node-modules-${{ hashFiles('src/package-lock.json') }}" >> "$GITHUB_OUTPUT"
+            run: echo "CACHE_KEY=${{ runner.os }}-node-modules-${{ hashFiles('src/package-lock.json') }}" >> "$GITHUB_OUTPUT"
 
           - name: Cache node_modules
             uses: actions/cache@v4
