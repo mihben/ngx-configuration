@@ -15,36 +15,65 @@ permissions:
 env:
     TEST_RESULT_DIR: test-results
 
-defaults:
-  run:
-     working-directory: src    
-
 jobs:
+    install-dependencies:
+        runs-on: ubuntu-latest
+        outputs:
+          deps-cache-key: ${{ steps.cache-key.outputs.CACHE_KEY }}
+
+        steps:
+          - name: Checkout Code
+            uses: actions/checkout@v4
+
+          - name: Calculate Cache Key
+            id: cache-key
+            run: echo "CACHE_KEY=${{ runner.os }}-node-modules-${{ hashFiles('src/package-lock.json') }}" >> "$GITHUB_OUTPUT"
+
+          - name: Cache node_modules
+            uses: actions/cache@v4
+            id: node_modules_cache
+            with:
+                key: ${{ steps.cache-key.outputs.CACHE_KEY }}
+                path: src/node_modules
+
+          - name: Restore Dependencies
+            if: ${{ steps.node_modules_cache.outputs.cache-hit }} != 'true'
+            run: npm ci
+            working-directory: src
+
     build-core:         
+        needs: [install-dependencies]
         runs-on: ubuntu-latest
         
         steps:
             - name: Checkout Code
-              uses: actions/checkout@v4           
-
-            - name: Restore Dependencies
-              run: npm ci
-              working-directory: src
+              uses: actions/checkout@v4
+            
+            - name: Download Dependecies
+              uses: actions/cache@v3
+              id: cache
+              with:
+                path: src/node_modules
+                key: ${{ needs.install-dependencies.outputs.deps-cache-key }}
         
             - name: Build
               run: npm run build ngx-configuration-core -- --configuration production
               working-directory: src
 
     build-options:
+        needs: [install-dependencies]
         runs-on: ubuntu-latest
         
         steps:
             - name: Checkout Code
-              uses: actions/checkout@v4       
-
-            - name: Restore Dependencies
-              run: npm ci
-              working-directory: src
+              uses: actions/checkout@v4
+              
+            - name: Download Dependecies
+              uses: actions/cache@v3
+              id: cache
+              with:
+                path: src/node_modules
+                key: ${{ needs.install-dependencies.outputs.deps-cache-key }}
                 
             - name: Build              
               run: npm run build ngx-configuration-options -- --configuration production
