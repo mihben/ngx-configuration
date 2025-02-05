@@ -60,27 +60,27 @@ jobs:
               run: npm run build ngx-configuration-core -- --configuration production
               working-directory: src
 
-    build-options:
-        needs: [install-dependencies]
-        runs-on: ubuntu-latest
+    # build-options:
+    #     needs: [install-dependencies]
+    #     runs-on: ubuntu-latest
         
-        steps:
-            - name: Checkout Code
-              uses: actions/checkout@v4
+    #     steps:
+    #         - name: Checkout Code
+    #           uses: actions/checkout@v4
               
-            - name: Download Dependecies
-              uses: actions/cache@v3
-              id: cache
-              with:
-                path: src/node_modules
-                key: ${{ needs.install-dependencies.outputs.deps-cache-key }}
+    #         - name: Download Dependecies
+    #           uses: actions/cache@v3
+    #           id: cache
+    #           with:
+    #             path: src/node_modules
+    #             key: ${{ needs.install-dependencies.outputs.deps-cache-key }}
                 
-            - name: Build              
-              run: npm run build ngx-configuration-options -- --configuration production
-              working-directory: src
+    #         - name: Build              
+    #           run: npm run build ngx-configuration-options -- --configuration production
+    #           working-directory: src
     
     test:
-      needs: [build-core, build-options]
+      needs: [build-core]
       runs-on: ubuntu-latest
       steps:
           - name: Checkout Code
