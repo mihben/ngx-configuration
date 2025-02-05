@@ -39,10 +39,12 @@ jobs:
                   path: src/node_modules
                   restore-keys: ${{ runner.os }}-node_modules-${{ hashFiles('src/package-lock.json') }}
 
+            - name: Restore Dependencies
+              if: ${{ steps.node_modules_cache.outputs.cache-hit }}
+              run: npm ci
+
             - name: Build
-              run: |
-                  npm ci 
-                  npm run buil --if-present
+              run: npm run build
 
             - name: Test
               env:
