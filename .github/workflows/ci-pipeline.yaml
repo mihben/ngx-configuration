@@ -15,10 +15,6 @@ permissions:
 env:
     TEST_RESULT_DIR: test-results
 
-defaults:
-  run:
-    working-directory:  src    
-
 jobs:
     install-dependencies:
         runs-on: ubuntu-latest
@@ -44,6 +40,7 @@ jobs:
           - name: Restore Dependencies
             if: ${{ steps.node_modules_cache.outputs.cache-hit }}
             run: npm ci
+            working-directory: src
 
     build-core:         
         needs: [install-dependencies]
@@ -58,7 +55,7 @@ jobs:
                 key: ${{ needs.install-dependencies.outputs.deps-cache-key }}
         
             - name: Build
-              run: npm run build ngx-configuration
+              run: npm run build ngx-configuration -- --configuration production --workspace src
 
     build-options:
         needs: [install-dependencies]
@@ -73,7 +70,7 @@ jobs:
                 key: ${{ needs.install-dependencies.outputs.deps-cache-key }}
                 
             - name: Build
-              run: npm run build ngx-options
+              run: npm run build ngx-options -- --configuration production --workspace src
     
     test:
       needs: [build-core, build-options]
@@ -86,6 +83,7 @@ jobs:
             run: |
                 npm install jest-junit --save-devs
                 npm run test:ci
+            working-directory: src
     
           - name: Install TestSpace CLI
             uses: testspace-com/setup-testspace@v1
@@ -94,3 +92,4 @@ jobs:
     
           - name: Publish Test Results
             run: testspace ${{ env.TEST_RESULT_DIR }}/tests.unit.xml coverage/clover.xml
+            working-directory: src
