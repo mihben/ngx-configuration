@@ -145,30 +145,30 @@ jobs:
     #               NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
     #           working-directory: packages
 
-    publish-options:
-        needs: [build-options, test]
-        runs-on: ubuntu-latest
-        steps:
-            - name: Download Artifacts
-              uses: actions/download-artifact@v4
-              with:
-                  name: ngx-configuration-options
-                  path: dist
+    # publish-options:
+    #     needs: [build-options, test]
+    #     runs-on: ubuntu-latest
+    #     steps:
+    #         - name: Download Artifacts
+    #           uses: actions/download-artifact@v4
+    #           with:
+    #               name: ngx-configuration-options
+    #               path: dist
 
-            - name: Setup Nodejs
-              uses: actions/setup-node@v4
-              with:
-                  node-version: '20.x'
-                  registry-url: 'https://registry.npmjs.org'
+    #         - name: Setup Nodejs
+    #           uses: actions/setup-node@v4
+    #           with:
+    #               node-version: '20.x'
+    #               registry-url: 'https://registry.npmjs.org'
 
-            - name: Pack
-              run: |
-                  mkdir ../packages
-                  npm pack --pack-destination ../packages
-              working-directory: dist
+    #         - name: Pack
+    #           run: |
+    #               mkdir ../packages
+    #               npm pack --pack-destination ../packages
+    #           working-directory: dist
 
-            - name: Publish
-              run: npm publish --access public *.tgz
-              env:
-                  NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-              working-directory: packages
+    #         - name: Publish
+    #           run: npm publish --access public *.tgz
+    #           env:
+    #               NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+    #           working-directory: packages
