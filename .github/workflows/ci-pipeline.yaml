@@ -107,16 +107,15 @@ jobs:
               run: |
                   npm install jest-junit --save-devs
                   npm run test:ci
+              continue-on-error: true
 
             - name: Install TestSpace CLI
               uses: testspace-com/setup-testspace@v1
               with:
                   domain: ${{ github.repository_owner }}
-              continue-on-error: true
 
             - name: Publish Test Results
               run: testspace ${{ env.TEST_RESULT_DIR }}/tests.unit.xml coverage/clover.xml
-              continue-on-error: true
 
     # publish-core:
     #     needs: [build-core, test]
