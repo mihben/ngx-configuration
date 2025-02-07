@@ -117,7 +117,7 @@ jobs:
               run: testspace ${{ env.TEST_RESULT_DIR }}/tests.unit.xml coverage/clover.xml
 
     # publish-core:
-    #     needs: [test]
+    #     needs: [build-core, test]
     #     runs-on: ubuntu-latest
     #     steps:
     #         - name: Download Artifacts
@@ -145,7 +145,7 @@ jobs:
     #           working-directory: packages
 
     publish-options:
-        needs: [test]
+        needs: [build-options, test]
         runs-on: ubuntu-latest
         steps:
             - name: Download Artifacts
