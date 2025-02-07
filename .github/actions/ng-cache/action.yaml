@@ -13,7 +13,7 @@ outputs:
 
 runs:
   using: composite
-  step:
+  steps:
     - name: Calculate Cache Key
       id: cache-key
       run: echo "CACHE_KEY=${{ runner.os }}-node-modules-${{ hashFiles('${{ inputs.src }}/package-lock.json') }}" >> "$GITHUB_OUTPUT"
