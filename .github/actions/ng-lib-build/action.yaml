@@ -4,7 +4,7 @@ description: This action allows to build NPM library
 inputs:
   cache-enabled:
     description: If true cache will be used for node_modules, otherwise not
-    default: 'false'
+    default: false
   cache-id: 
     description: ID of the cache. It is mandatory if cache is enabled
   cache-key:
@@ -12,7 +12,7 @@ inputs:
 
   src:
     description: Folder of the code
-    default: 'src'
+    default: src
   
   project:
     description: Name of the project that needs to be build
