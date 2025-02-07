@@ -17,7 +17,7 @@ runs:
     - name: Calculate Cache Key
       id: cache-key
       run: echo "CACHE_KEY=${{ runner.os }}-node-modules-${{ hashFiles('${{ inputs.src }}/package-lock.json') }}" >> "$GITHUB_OUTPUT"
-      shell: cache
+      shell: bash
 
     - name: Cache node_modules
       uses: actions/cache@v4
@@ -30,4 +30,4 @@ runs:
       if: steps.cache.outputs.cache-hit != 'true'
       run: npm ci
       working-directory: ${{ inputs.src }}
-      shell: cache
+      shell: bash
