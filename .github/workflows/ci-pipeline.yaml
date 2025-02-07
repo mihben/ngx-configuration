@@ -49,49 +49,28 @@ jobs:
         runs-on: ubuntu-latest
 
         steps:
-            - name: Checkout Code
-              uses: actions/checkout@v4
-
-            - name: Download Dependecies
-              uses: actions/cache@v3
-              id: cache
-              with:
-                  path: src/node_modules
-                  key: ${{ needs.install-dependencies.outputs.deps-cache-key }}
-
             - name: Build
-              run: npm run build ngx-configuration-core -- --configuration production
-
-            - name: Upload Build Files
-              uses: actions/upload-artifact@v4
+              uses: ./.github/actions/ng-lib-build
               with:
-                  name: ngx-configuration-core
-                  path: src/dist/ngx-configuration-core
+                cache-enabled: true
+                cache-id: cache
+                cache-key: ${{ needs.install-dependencies.outputs.deps-cache-key }}
+
+                project: ngx-configuration-core
 
     build-options:
         needs: [install-dependencies]
         runs-on: ubuntu-latest
 
         steps:
-            - name: Checkout Code
-              uses: actions/checkout@v4
+          - name: Build
+            uses: ./.github/actions/ng-lib-build
+            with:
+              cache-enabled: true
+              cache-id: cache
+              cache-key: ${{ needs.install-dependencies.outputs.deps-cache-key }}
 
-            - name: Download Dependecies
-              uses: actions/cache@v3
-              id: cache
-              with:
-                  path: src/node_modules
-                  key: ${{ needs.install-dependencies.outputs.deps-cache-key }}
-
-            - name: Build
-              run: npm run build ngx-configuration-options -- --configuration production
-              working-directory: src
-
-            - name: Upload Build Files
-              uses: actions/upload-artifact@v4
-              with:
-                  name: ngx-configuration-options
-                  path: src/dist/ngx-configuration-options
+              project: ngx-configuration-options
 
     test:
         needs: [build-core]
