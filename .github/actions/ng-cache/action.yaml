@@ -1,0 +1,31 @@
+name: ng.cache
+description: Allows to cache node_modules based on package.lock.json
+
+inputs:
+  src:
+    description: Folder of the code
+    default: src
+
+outputs:
+  cache-key:
+    description: Generated cache key
+    value: ${{ steps.cache-key.outputs.CACHE_KEY }}
+
+runs:
+  using: composite
+  step:
+    - name: Calculate Cache Key
+      id: cache-key
+      run: echo "CACHE_KEY=${{ runner.os }}-node-modules-${{ hashFiles('${{ inputs.src }}/package-lock.json') }}" >> "$GITHUB_OUTPUT"
+
+    - name: Cache node_modules
+      uses: actions/cache@v4
+      id: cache
+      with:
+          key: ${{ steps.cache-key.outputs.CACHE_KEY }}
+          path: ${{ inputs.src }}/node_modules
+
+    - name: Restore Dependencies
+      if: steps.cache.outputs.cache-hit != 'true'
+      run: npm ci
+      working-directory: ${{ inputs.src }}

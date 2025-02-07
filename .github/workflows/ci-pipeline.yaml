@@ -23,26 +23,15 @@ jobs:
     install-dependencies:
         runs-on: ubuntu-latest
         outputs:
-            deps-cache-key: ${{ steps.cache-key.outputs.CACHE_KEY }}
+            deps-cache-key: ${{ steps.cache.outputs.cache-key }}
 
         steps:
-            - name: Checkout Code
-              uses: actions/checkout@v4
+          - name: Checkout Code
+            uses: actions/checkout@v4
 
-            - name: Calculate Cache Key
-              id: cache-key
-              run: echo "CACHE_KEY=${{ runner.os }}-node-modules-${{ hashFiles('src/package-lock.json') }}" >> "$GITHUB_OUTPUT"
-
-            - name: Cache node_modules
-              uses: actions/cache@v4
-              id: node_modules_cache
-              with:
-                  key: ${{ steps.cache-key.outputs.CACHE_KEY }}
-                  path: src/node_modules
-
-            - name: Restore Dependencies
-              if: steps.node_modules_cache.outputs.cache-hit != 'true'
-              run: npm ci
+          - name: Cache
+            uses: ./.github/actions/ng-cache
+            id: cache
 
     build-core:
         needs: [install-dependencies]
@@ -56,7 +45,6 @@ jobs:
               uses: ./.github/actions/ng-lib-build
               with:
                 cache-enabled: true
-                cache-id: cache
                 cache-key: ${{ needs.install-dependencies.outputs.deps-cache-key }}
 
                 project: ngx-configuration-core
@@ -73,7 +61,6 @@ jobs:
             uses: ./.github/actions/ng-lib-build
             with:
               cache-enabled: true
-              cache-id: cache
               cache-key: ${{ needs.install-dependencies.outputs.deps-cache-key }}
 
               project: ngx-configuration-options
