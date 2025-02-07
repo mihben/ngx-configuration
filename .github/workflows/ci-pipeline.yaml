@@ -13,8 +13,8 @@ permissions:
     pull-requests: write
 
 defaults:
-  run:
-    working-directory: src
+    run:
+        working-directory: src
 
 env:
     TEST_RESULT_DIR: test-results
@@ -23,118 +23,151 @@ jobs:
     install-dependencies:
         runs-on: ubuntu-latest
         outputs:
-          deps-cache-key: ${{ steps.cache-key.outputs.CACHE_KEY }}
+            deps-cache-key: ${{ steps.cache-key.outputs.CACHE_KEY }}
 
-        steps:
-          - name: Checkout Code
-            uses: actions/checkout@v4
-
-          - name: Calculate Cache Key
-            id: cache-key
-            run: echo "CACHE_KEY=${{ runner.os }}-node-modules-${{ hashFiles('src/package-lock.json') }}" >> "$GITHUB_OUTPUT"
-
-          - name: Cache node_modules
-            uses: actions/cache@v4
-            id: node_modules_cache
-            with:
-                key: ${{ steps.cache-key.outputs.CACHE_KEY }}
-                path: src/node_modules
-
-          - name: Restore Dependencies
-            if: steps.node_modules_cache.outputs.cache-hit != 'true'
-            run: npm ci
-
-    build-core:         
-        needs: [install-dependencies]
-        runs-on: ubuntu-latest
-        
         steps:
             - name: Checkout Code
               uses: actions/checkout@v4
-            
+
+            - name: Calculate Cache Key
+              id: cache-key
+              run: echo "CACHE_KEY=${{ runner.os }}-node-modules-${{ hashFiles('src/package-lock.json') }}" >> "$GITHUB_OUTPUT"
+
+            - name: Cache node_modules
+              uses: actions/cache@v4
+              id: node_modules_cache
+              with:
+                  key: ${{ steps.cache-key.outputs.CACHE_KEY }}
+                  path: src/node_modules
+
+            - name: Restore Dependencies
+              if: steps.node_modules_cache.outputs.cache-hit != 'true'
+              run: npm ci
+
+    build-core:
+        needs: [install-dependencies]
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout Code
+              uses: actions/checkout@v4
+
             - name: Download Dependecies
               uses: actions/cache@v3
               id: cache
               with:
-                path: src/node_modules
-                key: ${{ needs.install-dependencies.outputs.deps-cache-key }}
-        
+                  path: src/node_modules
+                  key: ${{ needs.install-dependencies.outputs.deps-cache-key }}
+
             - name: Build
               run: npm run build ngx-configuration-core -- --configuration production
 
             - name: Upload Build Files
               uses: actions/upload-artifact@v4
               with:
-                name: ngx-configuration-core
-                path: src/dist/ngx-configuration-core
+                  name: ngx-configuration-core
+                  path: src/dist/ngx-configuration-core
 
-    # build-options:
-    #     needs: [install-dependencies]
-    #     runs-on: ubuntu-latest
-        
-    #     steps:
-    #         - name: Checkout Code
-    #           uses: actions/checkout@v4
-              
-    #         - name: Download Dependecies
-    #           uses: actions/cache@v3
-    #           id: cache
-    #           with:
-    #             path: src/node_modules
-    #             key: ${{ needs.install-dependencies.outputs.deps-cache-key }}
-                
-    #         - name: Build              
-    #           run: npm run build ngx-configuration-options -- --configuration production
-    #           working-directory: src
-    
+    build-options:
+        needs: [install-dependencies]
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout Code
+              uses: actions/checkout@v4
+
+            - name: Download Dependecies
+              uses: actions/cache@v3
+              id: cache
+              with:
+                  path: src/node_modules
+                  key: ${{ needs.install-dependencies.outputs.deps-cache-key }}
+
+            - name: Build
+              run: npm run build ngx-configuration-options -- --configuration production
+              working-directory: src
+
+            - name: Upload Build Files
+              uses: actions/upload-artifact@v4
+              with:
+                  name: ngx-configuration-options
+                  path: src/dist/ngx-configuration-options
+
     test:
-      needs: [build-core]
-      runs-on: ubuntu-latest
-      steps:
-          - name: Checkout Code
-            uses: actions/checkout@v4
-              
-          - name: Test
-            env:
-                JEST_JUNIT_OUTPUT_FILE: ${{ env.TEST_RESULT_DIR }}/tests.unit.xml
-                JEST_JUNIT_REPORT_TEST_SUITE_ERRORS: true
-            run: |
-                npm install jest-junit --save-devs
-                npm run test:ci
-    
-          - name: Install TestSpace CLI
-            uses: testspace-com/setup-testspace@v1
-            with:
-                domain: ${{ github.repository_owner }}
-    
-          - name: Publish Test Results
-            run: testspace ${{ env.TEST_RESULT_DIR }}/tests.unit.xml coverage/clover.xml
+        needs: [build-core]
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout Code
+              uses: actions/checkout@v4
 
-    publish-core:
-      needs: [test]
-      runs-on: ubuntu-latest
-      steps:
-        - name: Download Artifacts
-          uses: actions/download-artifact@v4
-          with:
-            name: ngx-configuration-core
-            path: dist
+            - name: Test
+              env:
+                  JEST_JUNIT_OUTPUT_FILE: ${{ env.TEST_RESULT_DIR }}/tests.unit.xml
+                  JEST_JUNIT_REPORT_TEST_SUITE_ERRORS: true
+              run: |
+                  npm install jest-junit --save-devs
+                  npm run test:ci
 
-        - name: Setup Nodejs
-          uses: actions/setup-node@v4
-          with:
-            node-version: '20.x'
-            registry-url: 'https://registry.npmjs.org'
+            - name: Install TestSpace CLI
+              uses: testspace-com/setup-testspace@v1
+              with:
+                  domain: ${{ github.repository_owner }}
 
-        - name: Pack
-          run: |
-            mkdir ../packages
-            npm pack --pack-destination ../packages
-          working-directory: dist
+            - name: Publish Test Results
+              run: testspace ${{ env.TEST_RESULT_DIR }}/tests.unit.xml coverage/clover.xml
 
-        - name: Publish
-          run: npm publish --access public *.tgz
-          env:
-            NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-          working-directory: packages
+    # publish-core:
+    #     needs: [test]
+    #     runs-on: ubuntu-latest
+    #     steps:
+    #         - name: Download Artifacts
+    #           uses: actions/download-artifact@v4
+    #           with:
+    #               name: ngx-configuration-core
+    #               path: dist
 
+    #         - name: Setup Nodejs
+    #           uses: actions/setup-node@v4
+    #           with:
+    #               node-version: '20.x'
+    #               registry-url: 'https://registry.npmjs.org'
+
+    #         - name: Pack
+    #           run: |
+    #               mkdir ../packages
+    #               npm pack --pack-destination ../packages
+    #           working-directory: dist
+
+    #         - name: Publish
+    #           run: npm publish --access public *.tgz
+    #           env:
+    #               NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+    #           working-directory: packages
+
+    publish-options:
+        needs: [test]
+        runs-on: ubuntu-latest
+        steps:
+            - name: Download Artifacts
+              uses: actions/download-artifact@v4
+              with:
+                  name: ngx-configuration-options
+                  path: dist
+
+            - name: Setup Nodejs
+              uses: actions/setup-node@v4
+              with:
+                  node-version: '20.x'
+                  registry-url: 'https://registry.npmjs.org'
+
+            - name: Pack
+              run: |
+                  mkdir ../packages
+                  npm pack --pack-destination ../packages
+              working-directory: dist
+
+            - name: Publish
+              run: npm publish --access public *.tgz
+              env:
+                  NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+              working-directory: packages
