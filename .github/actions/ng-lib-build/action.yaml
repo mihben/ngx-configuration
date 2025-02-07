@@ -21,9 +21,6 @@ inputs:
 runs:
   using: composite
   steps:
-    - name: Checkout Code
-      uses: actions/checkout@v4
-
     - name: Download Dependecies
       uses: actions/cache@v3
       id: ${{ inputs.cache-id }}
