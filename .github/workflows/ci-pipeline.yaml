@@ -55,8 +55,8 @@ jobs:
             - name: Build
               uses: ./.github/actions/ng-lib-build
               with:
-                cache-enabled: true
-                cache-id: cache
+                cache-enabled: 'true'
+                cache-id: 'cache'
                 cache-key: ${{ needs.install-dependencies.outputs.deps-cache-key }}
 
                 project: ngx-configuration-core
@@ -68,12 +68,12 @@ jobs:
         steps:
           - name: Checkout Code
             uses: actions/checkout@v4
-            
+
           - name: Build
             uses: ./.github/actions/ng-lib-build
             with:
-              cache-enabled: true
-              cache-id: cache
+              cache-enabled: 'true'
+              cache-id: 'cache'
               cache-key: ${{ needs.install-dependencies.outputs.deps-cache-key }}
 
               project: ngx-configuration-options
