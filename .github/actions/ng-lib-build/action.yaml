@@ -5,8 +5,6 @@ inputs:
   cache-enabled:
     description: If true cache will be used for node_modules, otherwise not
     default: false
-  cache-id: 
-    description: ID of the cache. It is mandatory if cache is enabled
   cache-key:
     description: Key of the cache. It is mandatory if cache is enabled
 
@@ -23,7 +21,7 @@ runs:
   steps:
     - name: Download Dependecies
       uses: actions/cache@v3
-      id: ${{ inputs.cache-id }}
+      id: cache
       with:
         path: ${{ inputs.src }}/node_modules
         key: ${{ inputs.cache-key }}
