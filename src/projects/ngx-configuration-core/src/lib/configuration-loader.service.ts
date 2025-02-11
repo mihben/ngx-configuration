@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-
 import { Configuration } from './configuration';
 import { ConfigurationSourceStoreService } from './configuration-source-store.service';
 
@@ -17,5 +16,8 @@ export class ConfigurationLoaderService {
             const configuration = await source.loadAsync();
             if (configuration) this.configuration.add(configuration);
         }
+
+        console.log('fdsfsfdsf');
+        debugger;
     }
 }
