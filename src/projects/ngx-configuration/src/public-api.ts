@@ -1,5 +1,5 @@
 /*
- * Public API Surface of ngx-configuration-core
+ * Public API Surface of ngx-configuration
  */
 
 export { Configuration } from './lib/configuration';
