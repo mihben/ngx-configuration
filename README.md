@@ -1,9 +1,9 @@
 # ngx-configuration
 [![Quality gate](https://sonarcloud.io/api/project_badges/quality_gate?project=mihben_ngx-configuration)](https://sonarcloud.io/summary/new_code?id=mihben_ngx-configuration)
 
-The `ngx-configuration` packages provide ease-to-use solution for handling dynamic configuration in [Angular](https://angular.dev) webapplications. 
+The `ngx-configuration` package provides ease-to-use solution for handling dynamic configuration in [Angular](https://angular.dev) webapplications. 
 In an [Angular](https://angular.dev) application the configurations are built-in the application code, it means have to be defined build time. 
-The `ngx-configuration-core` and `ngx-configuration-options` packages make possible to define the configurations runtime, use those as separated objects in the application and validate the defined values.
+The package makes possible to define the configurations runtime, use those as separated objects in the application and validate the defined values.
 
 ### Features
 - Reading JSON configuration from external source
@@ -13,10 +13,9 @@ The `ngx-configuration-core` and `ngx-configuration-options` packages make possi
 
 ### Supported Versions
 
-| Package                   | Version | Supported Angular Version |
-| :------------------------ | :------ | :-----------------------: |
-| ngx-configuration-core    | 1.x.x   |            >18            |
-| ngx-configuration-options | 1.x.x   |            >18            |
+| Package           | Version | Supported Angular Version |
+| :---------------- | :------ | :-----------------------: |
+| ngx-configuration | 1.x.x   |            >18            |
 
 ### Workflow  
 1. Loading the application
@@ -28,7 +27,7 @@ The `ngx-configuration-core` and `ngx-configuration-options` packages make possi
 ## Getting Started
 1. Install packages:
 ```bash
-npm install ngx-configuration-core ngx-configuration-options
+npm install ngx-configuration
 ```
 
 2. Create `BackendOptions.ts`:
