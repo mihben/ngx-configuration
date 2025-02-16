@@ -1,10 +1,10 @@
 import { OptionsBuilder } from './options-builder';
 import { TestOptions } from '../__test_utils__/test-options';
 import { faker } from '@faker-js/faker';
+import { Configuration } from '../public-api';
 import { InvalidConfigurationError } from './invalid-configuration-error';
 import { ValidationResult } from './validation-result';
 import { MockService } from 'ng-mocks';
-import { Configuration } from 'ngx-configuration-core';
 
 describe('OptionsBuilder', () => {
     const createSUT = (configuration?: Configuration) => OptionsBuilder.create(configuration ?? new Configuration(), new TestOptions());
@@ -123,3 +123,4 @@ describe('OptionsBuilder', () => {
         ).not.toThrow(InvalidConfigurationError);
     });
 });
+

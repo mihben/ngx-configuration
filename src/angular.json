@@ -3,23 +3,23 @@
     "version": 1,
     "newProjectRoot": "projects",
     "projects": {
-        "ngx-configuration-core": {
+        "ngx-configuration": {
             "projectType": "library",
-            "root": "projects/ngx-configuration-core",
-            "sourceRoot": "projects/ngx-configuration-core/src",
+            "root": "projects/ngx-configuration",
+            "sourceRoot": "projects/ngx-configuration/src",
             "prefix": "lib",
             "architect": {
                 "build": {
                     "builder": "@angular-devkit/build-angular:ng-packagr",
                     "options": {
-                        "project": "projects/ngx-configuration-core/ng-package.json"
+                        "project": "projects/ngx-configuration/ng-package.json"
                     },
                     "configurations": {
                         "production": {
-                            "tsConfig": "projects/ngx-configuration-core/tsconfig.lib.prod.json"
+                            "tsConfig": "projects/ngx-configuration/tsconfig.lib.prod.json"
                         },
                         "development": {
-                            "tsConfig": "projects/ngx-configuration-core/tsconfig.lib.json"
+                            "tsConfig": "projects/ngx-configuration/tsconfig.lib.json"
                         }
                     },
                     "defaultConfiguration": "production"
@@ -27,10 +27,7 @@
                 "lint": {
                     "builder": "@angular-eslint/builder:lint",
                     "options": {
-                        "lintFilePatterns": [
-                            "projects/ngx-configuration-core/**/*.ts",
-                            "projects/ngx-configuration-core/**/*.html"
-                        ],
+                        "lintFilePatterns": ["projects/ngx-configuration/**/*.ts", "projects/ngx-configuration/**/*.html"],
                         "eslintConfig": "eslint.config.js"
                     }
                 }
@@ -143,39 +140,6 @@
                             "projects/ngx-configuration-sample/**/*.html"
                         ],
                         "eslintConfig": "projects/ngx-configuration-sample/eslint.config.js"
-                    }
-                }
-            }
-        },
-        "ngx-configuration-options": {
-            "projectType": "library",
-            "root": "projects/ngx-configuration-options",
-            "sourceRoot": "projects/ngx-configuration-options/src",
-            "prefix": "lib",
-            "architect": {
-                "build": {
-                    "builder": "@angular-devkit/build-angular:ng-packagr",
-                    "options": {
-                        "project": "projects/ngx-configuration-options/ng-package.json"
-                    },
-                    "configurations": {
-                        "production": {
-                            "tsConfig": "projects/ngx-configuration-options/tsconfig.lib.prod.json"
-                        },
-                        "development": {
-                            "tsConfig": "projects/ngx-configuration-options/tsconfig.lib.json"
-                        }
-                    },
-                    "defaultConfiguration": "production"
-                },
-                "lint": {
-                    "builder": "@angular-eslint/builder:lint",
-                    "options": {
-                        "lintFilePatterns": [
-                            "projects/ngx-configuration-options/**/*.ts",
-                            "projects/ngx-configuration-options/**/*.html"
-                        ],
-                        "eslintConfig": "eslint.config.js"
                     }
                 }
             }
