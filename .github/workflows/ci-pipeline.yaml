@@ -1,146 +1,130 @@
 name: CI Pipeline
-run-name: 'PR: #${{ github.event.pull_request.number }} - ${{ github.event.pull_request.title }}'
+run-name: "PR: #${{ github.event.pull_request.number }} - ${{ github.event.pull_request.title }}"
 
 on:
-    pull_request:
-        branches:
-            - main
-            - develop
-            - 'release/**'
+  pull_request:
+    branches:
+      - main
+      - develop
+      - "release/**"
 
 permissions:
-    checks: write
-    pull-requests: write
+  checks: write
+  pull-requests: write
 
 defaults:
-    run:
-        working-directory: src
+  run:
+    working-directory: src
 
 env:
-    TEST_RESULT_DIR: test-results
+  TEST_RESULT_DIR: test-results
 
 jobs:
-    install-dependencies:
-        runs-on: ubuntu-latest
-        outputs:
-            deps-cache-key: ${{ steps.cache.outputs.cache-key }}
+  install-dependencies:
+    runs-on: ubuntu-latest
+    outputs:
+      deps-cache-key: ${{ steps.cache.outputs.cache-key }}
 
-        steps:
-          - name: Checkout Code
-            uses: actions/checkout@v4
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
 
-          - name: Cache
-            uses: ./.github/actions/ng-cache
-            id: cache
+      - name: Cache
+        uses: ./.github/actions/ng-cache
+        id: cache
 
-    build-core:
-        needs: [install-dependencies]
-        runs-on: ubuntu-latest
+  build:
+    needs: [install-dependencies]
+    runs-on: ubuntu-latest
 
-        steps:
-            - name: Checkout Code
-              uses: actions/checkout@v4
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
 
-            - name: Build
-              uses: ./.github/actions/ng-lib-build
-              with:
-                cache-enabled: true
-                cache-key: ${{ needs.install-dependencies.outputs.deps-cache-key }}
+      - name: Build
+        uses: ./.github/actions/ng-lib-build
+        with:
+          cache-enabled: true
+          cache-key: ${{ needs.install-dependencies.outputs.deps-cache-key }}
 
-                project: ngx-configuration-core
+          project: ngx-configuration
 
-    build-options:
-        needs: [install-dependencies]
-        runs-on: ubuntu-latest
+  test:
+    needs: [build]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
 
-        steps:
-          - name: Checkout Code
-            uses: actions/checkout@v4
+      - name: Test
+        env:
+          JEST_JUNIT_OUTPUT_FILE: ${{ env.TEST_RESULT_DIR }}/tests.unit.xml
+          JEST_JUNIT_REPORT_TEST_SUITE_ERRORS: true
+        run: |
+          npm install jest-junit --save-devs
+          npm run test:ci
+        continue-on-error: true
 
-          - name: Build
-            uses: ./.github/actions/ng-lib-build
-            with:
-              cache-enabled: true
-              cache-key: ${{ needs.install-dependencies.outputs.deps-cache-key }}
+      - name: Install TestSpace CLI
+        uses: testspace-com/setup-testspace@v1
+        with:
+          domain: ${{ github.repository_owner }}
 
-              project: ngx-configuration-options
+      - name: Publish Test Results
+        run: testspace ${{ env.TEST_RESULT_DIR }}/tests.unit.xml coverage/clover.xml
 
-    test:
-        needs: [build-core]
-        runs-on: ubuntu-latest
-        steps:
-            - name: Checkout Code
-              uses: actions/checkout@v4
+  # publish-core:
+  #     needs: [build-core, test]
+  #     runs-on: ubuntu-latest
+  #     steps:
+  #         - name: Download Artifacts
+  #           uses: actions/download-artifact@v4
+  #           with:
+  #               name: ngx-configuration-core
+  #               path: dist
 
-            - name: Test
-              env:
-                  JEST_JUNIT_OUTPUT_FILE: ${{ env.TEST_RESULT_DIR }}/tests.unit.xml
-                  JEST_JUNIT_REPORT_TEST_SUITE_ERRORS: true
-              run: |
-                  npm install jest-junit --save-devs
-                  npm run test:ci
-              continue-on-error: true
+  #         - name: Setup Nodejs
+  #           uses: actions/setup-node@v4
+  #           with:
+  #               node-version: '20.x'
+  #               registry-url: 'https://registry.npmjs.org'
 
-            - name: Install TestSpace CLI
-              uses: testspace-com/setup-testspace@v1
-              with:
-                  domain: ${{ github.repository_owner }}
+  #         - name: Pack
+  #           run: |
+  #               mkdir ../packages
+  #               npm pack --pack-destination ../packages
+  #           working-directory: dist
 
-            - name: Publish Test Results
-              run: testspace ${{ env.TEST_RESULT_DIR }}/tests.unit.xml coverage/clover.xml
+  #         - name: Publish
+  #           run: npm publish --access public *.tgz
+  #           env:
+  #               NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+  #           working-directory: packages
 
-    # publish-core:
-    #     needs: [build-core, test]
-    #     runs-on: ubuntu-latest
-    #     steps:
-    #         - name: Download Artifacts
-    #           uses: actions/download-artifact@v4
-    #           with:
-    #               name: ngx-configuration-core
-    #               path: dist
+  # publish-options:
+  #     needs: [build-options, test]
+  #     runs-on: ubuntu-latest
+  #     steps:
+  #         - name: Download Artifacts
+  #           uses: actions/download-artifact@v4
+  #           with:
+  #               name: ngx-configuration-options
+  #               path: dist
 
-    #         - name: Setup Nodejs
-    #           uses: actions/setup-node@v4
-    #           with:
-    #               node-version: '20.x'
-    #               registry-url: 'https://registry.npmjs.org'
+  #         - name: Setup Nodejs
+  #           uses: actions/setup-node@v4
+  #           with:
+  #               node-version: '20.x'
+  #               registry-url: 'https://registry.npmjs.org'
 
-    #         - name: Pack
-    #           run: |
-    #               mkdir ../packages
-    #               npm pack --pack-destination ../packages
-    #           working-directory: dist
+  #         - name: Pack
+  #           run: |
+  #               mkdir ../packages
+  #               npm pack --pack-destination ../packages
+  #           working-directory: dist
 
-    #         - name: Publish
-    #           run: npm publish --access public *.tgz
-    #           env:
-    #               NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-    #           working-directory: packages
-
-    # publish-options:
-    #     needs: [build-options, test]
-    #     runs-on: ubuntu-latest
-    #     steps:
-    #         - name: Download Artifacts
-    #           uses: actions/download-artifact@v4
-    #           with:
-    #               name: ngx-configuration-options
-    #               path: dist
-
-    #         - name: Setup Nodejs
-    #           uses: actions/setup-node@v4
-    #           with:
-    #               node-version: '20.x'
-    #               registry-url: 'https://registry.npmjs.org'
-
-    #         - name: Pack
-    #           run: |
-    #               mkdir ../packages
-    #               npm pack --pack-destination ../packages
-    #           working-directory: dist
-
-    #         - name: Publish
-    #           run: npm publish --access public *.tgz
-    #           env:
-    #               NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-    #           working-directory: packages
+  #         - name: Publish
+  #           run: npm publish --access public *.tgz
+  #           env:
+  #               NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+  #           working-directory: packages
