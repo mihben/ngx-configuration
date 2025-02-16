@@ -23,11 +23,11 @@ runs:
       uses: actions/cache@v4
       id: cache
       with:
-          key: ${{ steps.cache-key.outputs.CACHE_KEY }}
-          path: ${{ inputs.src }}/node_modules
+        key: ${{ steps.cache-key.outputs.CACHE_KEY }}
+        path: ${{ inputs.src }}/node_modules
 
     - name: Restore Dependencies
       if: steps.cache.outputs.cache-hit != 'true'
-      run: npm ci
+      run: npm ci --omit=dev
       working-directory: ${{ inputs.src }}
       shell: bash
