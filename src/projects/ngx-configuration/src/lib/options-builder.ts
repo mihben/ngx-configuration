@@ -1,4 +1,4 @@
-import { Configuration } from '../../../ngx-configuration-core/src/public-api';
+import { Configuration } from '../public-api';
 import { InvalidConfigurationError } from './invalid-configuration-error';
 import { ValidationResult } from './validation-result';
 import { RequiredSettingsValidator } from './validators/required-settings-validator';

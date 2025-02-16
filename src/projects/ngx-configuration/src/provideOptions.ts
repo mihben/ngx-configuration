@@ -1,6 +1,6 @@
 import { APP_INITIALIZER, Provider } from '@angular/core';
 import { IOptionsConfigurator, OptionsBuilder } from './lib/options-builder';
-import { Configuration } from '../../ngx-configuration-core/src/lib/configuration';
+import { Configuration } from './lib/configuration';
 
 export function provideOptions<TOptions extends object>(type: new () => TOptions, build: (builder: IOptionsConfigurator<TOptions>) => IOptionsConfigurator<TOptions>): Provider[] {
     return [

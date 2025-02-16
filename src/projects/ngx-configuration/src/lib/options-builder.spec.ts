@@ -1,7 +1,7 @@
 import { OptionsBuilder } from './options-builder';
 import { TestOptions } from '../__test_utils__/test-options';
 import { faker } from '@faker-js/faker';
-import { Configuration } from '../../../ngx-configuration-core/src/public-api';
+import { Configuration } from '../public-api';
 import { InvalidConfigurationError } from './invalid-configuration-error';
 import { ValidationResult } from './validation-result';
 import { MockService } from 'ng-mocks';
