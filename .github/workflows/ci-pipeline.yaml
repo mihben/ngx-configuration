@@ -34,7 +34,7 @@ jobs:
         id: cache
         with:
           working-directory: src
-          cache__enabled: true
+          cache_enabled: true
           package-lock: package-lock.json
 
   build:
@@ -49,7 +49,7 @@ jobs:
         uses: ./.github/actions/ng-lib-build
         with:
           cache-enabled: true
-          cache-key: ${{ needs.install-dependencies.outputs.deps-cache-key }}
+          cache-key: ${{ needs.restore-dependencies.outputs.deps-cache-key }}
 
           project: ngx-configuration
 
