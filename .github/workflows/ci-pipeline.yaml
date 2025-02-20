@@ -18,7 +18,7 @@ defaults:
 
 jobs:
   build:
-    uses: mihben/actions-repository/.github/workflows/angular_ci-pipeline.yaml@feature/angular-actions
+    uses: mihben/actions-repository/.github/workflows/angular_ci-pipeline.yaml@main
     with:
       project: '["ngx-configuration"]'
     secrets: inherit
