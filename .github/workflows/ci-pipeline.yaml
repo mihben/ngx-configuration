@@ -16,9 +16,6 @@ defaults:
   run:
     working-directory: src
 
-env:
-  TEST_RESULT_DIR: test-results
-
 jobs:
   restore-dependencies:
     runs-on: ubuntu-latest
@@ -28,7 +25,7 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
-        
+
       - name: Calculate Cache Key
         id: cache-key
         run: echo "CACHE_KEY=${{ runner.os }}-node-modules-${{ hashFiles('src/package-lock.json') }}" >> "$GITHUB_OUTPUT"
@@ -74,8 +71,6 @@ jobs:
 
           cache_enabled: true
           cache_key: ${{ needs.restore-dependencies.outputs.deps-cache-key }}
-
-          result_directory: ${{ env.TEST_RESULT_DIR }}
 
   # publish-core:
   #     needs: [build-core, test]
