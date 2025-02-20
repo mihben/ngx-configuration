@@ -68,21 +68,12 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Test
-        env:
-          JEST_JUNIT_OUTPUT_FILE: ${{ env.TEST_RESULT_DIR }}/tests.unit.xml
-          JEST_JUNIT_REPORT_TEST_SUITE_ERRORS: true
-        run: |
-          npm install jest-junit --save-devs
-          npm run test:ci
-        continue-on-error: true
-
-      - name: Install TestSpace CLI
-        uses: testspace-com/setup-testspace@v1
+        uses: mihben/actions-repository/actions/node/test@feature/angular-actions
         with:
-          domain: ${{ github.repository_owner }}
-
-      - name: Publish Test Results
-        run: testspace ${{ env.TEST_RESULT_DIR }}/tests.unit.xml coverage/clover.xml
+          working-directory: src
+          cache_enabled: true
+          cache-key: ${{ needs.restore-dependencies.outputs.deps-cache-key }}
+          result_directory: ${{ env.TEST_RESULT_DIR }}
 
   # publish-core:
   #     needs: [build-core, test]
