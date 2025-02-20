@@ -71,8 +71,10 @@ jobs:
         uses: mihben/actions-repository/actions/node/test@feature/angular-actions
         with:
           working-directory: src
+
           cache_enabled: true
-          cache-key: ${{ needs.restore-dependencies.outputs.deps-cache-key }}
+          cache_key: ${{ needs.restore-dependencies.outputs.deps-cache-key }}
+
           result_directory: ${{ env.TEST_RESULT_DIR }}
 
   # publish-core:
