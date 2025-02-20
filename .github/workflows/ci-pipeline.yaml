@@ -23,7 +23,7 @@ jobs:
   restore-dependencies:
     runs-on: ubuntu-latest
     outputs:
-      deps-cache-key: ${{ steps.cache.outputs.cache_key }}
+      deps-cache-key: ${{ steps.cache.outputs.CACHE_KEY }}
 
     steps:
       - name: Checkout Code
