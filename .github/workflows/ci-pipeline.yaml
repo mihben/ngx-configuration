@@ -30,7 +30,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Restore Depedencies
-        uses: mihben/actions-repository/actions/node/install-dependencies@feature/angular-actions
+        uses: mihben/actions-repository/actions/node/restore-dependencies@feature/angular-actions
         id: cache
         with:
           working-directory: src
