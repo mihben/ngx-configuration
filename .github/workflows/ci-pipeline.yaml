@@ -61,7 +61,7 @@ jobs:
           artict_publish: false
 
   test:
-    needs: [build]
+    needs: [restore-dependencies, build]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
