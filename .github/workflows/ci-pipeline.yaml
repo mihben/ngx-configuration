@@ -17,60 +17,11 @@ defaults:
     working-directory: src
 
 jobs:
-  restore-dependencies:
-    runs-on: ubuntu-latest
-    outputs:
-      deps-cache-key: ${{ steps.cache-key.outputs.CACHE_KEY }}
-
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
-
-      - name: Calculate Cache Key
-        id: cache-key
-        run: echo "CACHE_KEY=${{ runner.os }}-node-modules-${{ hashFiles('src/package-lock.json') }}" >> "$GITHUB_OUTPUT"
-        shell: bash
-
-      - name: Restore Depedencies
-        uses: mihben/actions-repository/actions/node/restore-dependencies@feature/angular-actions
-        id: cache
-        with:
-          working-directory: src
-          cache_enabled: true
-          cache_key: ${{ steps.cache-key.outputs.CACHE_KEY }}
-
   build:
-    needs: [restore-dependencies]
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
-
-      - name: Build
-        uses: mihben/actions-repository/actions/node/build@feature/angular-actions
-        with:
-          cache_enabled: true
-          cache_key: ${{ needs.restore-dependencies.outputs.deps-cache-key }}
-
-          project: ngx-configuration
-
-          artict_publish: false
-
-  test:
-    needs: [restore-dependencies, build]
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
-
-      - name: Test
-        uses: mihben/actions-repository/actions/node/test@feature/angular-actions
-        with:
-          working-directory: src
-
-          cache_enabled: true
-          cache_key: ${{ needs.restore-dependencies.outputs.deps-cache-key }}
+    uses: mihben/actions-repository/workflows/angular/ci-pipeline@feature/angular-actions
+    with:
+      project: '["ngx-configuration"]'
+    secrets: inherit
 
   # publish-core:
   #     needs: [build-core, test]
