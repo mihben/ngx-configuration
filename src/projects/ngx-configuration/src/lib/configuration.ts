@@ -11,7 +11,7 @@ export class Configuration {
 
     public get(key: string): string | undefined {
         for (const configuration of this._stores.toReversed()) {
-            if (Object.keys(configuration).some(k => k == key)) return configuration[key];
+            if (key in configuration) return configuration[key];
         }
 
         return undefined;
