@@ -1,6 +1,15 @@
 {
     "name": "ngx-configuration",
     "version": "1.0.0-alpha.1",
+    "author": {
+        "name": "Mihben"
+    },
+    "license": "MIT",
+    "repository": {
+        "type": "angular",
+        "url": "https://github.com/mihben/ngx-configuration"
+    },
+    "readme": "./README.md",
     "peerDependencies": {
         "@angular/common": ">=18.0.0",
         "@angular/core": ">=18.0.0"
