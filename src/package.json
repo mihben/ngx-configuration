@@ -7,7 +7,7 @@
         "build": "ng build",
         "watch": "ng build --watch --configuration development",
         "test": "jest",
-        "test:ci": "jest --ci --passWithNoTests --reporters='jest-junit' --runInBand --bail=0",
+        "test:ci": "jest --ci --reporters='jest-junit' --passWithNoTests --runInBand --bail=0 --coverage",
         "lint": "ng lint",
         "pretty": "prettier --write \"./**/*.{js,jsx,mjs,cjs,ts,tsx,json}\""
     },
@@ -22,6 +22,7 @@
         "@angular/platform-browser-dynamic": "^18.2.0",
         "@angular/router": "^18.2.0",
         "ng-mocks": "^14.13.1",
+        "ngx-configuration-core": "^1.0.0-alpha.1",
         "rxjs": "~7.8.0",
         "tslib": "^2.3.0",
         "zone.js": "~0.14.10"
@@ -42,6 +43,9 @@
         "ng-packagr": "^18.2.0",
         "ts-jest": "^29.2.5",
         "typescript": "~5.5.2",
-        "typescript-eslint": "8.2.0"
+        "typescript-eslint": "^8.2.0"
+    },
+    "optionalDependencies": {
+        "@rollup/rollup-linux-x64-gnu": "*"
     }
 }

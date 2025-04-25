@@ -1,5 +1,6 @@
 # ngx-configuration
 [![Quality gate](https://sonarcloud.io/api/project_badges/quality_gate?project=mihben_ngx-configuration)](https://sonarcloud.io/summary/new_code?id=mihben_ngx-configuration)
+[![Space Metric](https://mihben.testspace.com/spaces/297019/metrics/720812/badge?token=1aa21ff348b1169742761012a2a352f79015e6c8)](https://mihben.testspace.com/spaces/297019/current/Code%20Coverage?utm_campaign=metric&utm_medium=referral&utm_source=badge "Code Coverage (statements)")
 
 The `ngx-configuration` package provides ease-to-use solution for handling dynamic configuration in [Angular](https://angular.dev) webapplications. 
 In an [Angular](https://angular.dev) application the configurations are built-in the application code, it means have to be defined build time. 

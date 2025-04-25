@@ -25,6 +25,16 @@
         "module": "ES2022",
         "lib": ["ES2023", "dom"]
     },
+    "types": ["node", "jest"],
+    "esModuleInterop": true,
+    "sourceMap": true,
+    "declaration": false,
+    "experimentalDecorators": true,
+    "moduleResolution": "bundler",
+    "importHelpers": true,
+    "target": "ES2023",
+    "module": "ES2022",
+    "lib": ["ES2023", "dom"],
     "angularCompilerOptions": {
         "enableI18nLegacyMessageIdFormat": false,
         "strictInjectionParameters": true,

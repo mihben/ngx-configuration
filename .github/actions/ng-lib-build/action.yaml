@@ -1,0 +1,45 @@
+name: ng.lib.build
+description: This action allows to build NPM library
+
+inputs:
+  cache-enabled:
+    description: If true cache will be used for node_modules, otherwise not
+    default: false
+  cache-key:
+    description: Key of the cache. It is mandatory if cache is enabled
+
+  src:
+    description: Folder of the code
+    default: src
+  
+  project:
+    description: Name of the project that needs to be build
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - name: Download Dependecies
+      uses: actions/cache@v3
+      id: cache
+      with:
+        path: ${{ inputs.src }}/node_modules
+        key: ${{ inputs.cache-key }}
+      if: inputs.cache-enabled == 'true'
+
+    - name: Restore Dependecies
+      run: npm ci
+      if: inputs.cache-enabled != 'true'
+      shell: bash
+      working-directory: ${{ inputs.src }}
+
+    - name: Build
+      run: npm run build ${{ inputs.project }} -- --configuration production
+      shell: bash
+      working-directory: ${{ inputs.src }}
+
+    - name: Upload Artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: ${{ inputs.project }}
+        path: ${{ inputs.src }}/dist/${{ inputs.project }}

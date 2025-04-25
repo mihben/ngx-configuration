@@ -1,51 +1,81 @@
 name: CI Pipeline
-run-name: PR-${{ github.event.number }}
+run-name: "PR: #${{ github.event.pull_request.number }} - ${{ github.event.pull_request.title }}"
 
-on: [pull_request]
+on:
+  pull_request:
+    branches:
+      - main
+      - develop
+      - "release/**"
 
 permissions:
   checks: write
   pull-requests: write
 
-env:
-  SOURCE_DIR: src
-  TEST_RESULT_DIR: test-results
+defaults:
+  run:
+    working-directory: src
 
 jobs:
-  ng-lib:
-    runs-on: ubuntu-latest
+  build:
+    uses: mihben/actions-repository/.github/workflows/angular_ci-pipeline.yaml@main
+    with:
+      project: '["ngx-configuration"]'
+    secrets: inherit
 
-    strategy:
-      matrix:
-        node-version: ["20.x"]
+  # publish-core:
+  #     needs: [build-core, test]
+  #     runs-on: ubuntu-latest
+  #     steps:
+  #         - name: Download Artifacts
+  #           uses: actions/download-artifact@v4
+  #           with:
+  #               name: ngx-configuration-core
+  #               path: dist
 
-    steps:
-      - name: Check Out
-        uses: actions/checkout@v4
+  #         - name: Setup Nodejs
+  #           uses: actions/setup-node@v4
+  #           with:
+  #               node-version: '20.x'
+  #               registry-url: 'https://registry.npmjs.org'
 
-      - name: Use Setup Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ matrix.node-version }}
+  #         - name: Pack
+  #           run: |
+  #               mkdir ../packages
+  #               npm pack --pack-destination ../packages
+  #           working-directory: dist
 
-      - name: Build
-        run: |
-          npm ci 
-          npm run buil --if-present
-        working-directory: ${{ env.SOURCE_DIR }}
+  #         - name: Publish
+  #           run: npm publish --access public *.tgz
+  #           env:
+  #               NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+  #           working-directory: packages
 
-      - name: Test
-        env:
-          JEST_JUNIT_OUTPUT_FILE: ${{ env.TEST_RESULT_DIR }}/tests.unit.xml
-          JEST_JUNIT_REPORT_TEST_SUITE_ERRORS: true
-        run: |
-          npm install jest-junit --save-devs
-          npm run test:ci
-        working-directory: ${{ env.SOURCE_DIR }}
+  # publish-options:
+  #     needs: [build-options, test]
+  #     runs-on: ubuntu-latest
+  #     steps:
+  #         - name: Download Artifacts
+  #           uses: actions/download-artifact@v4
+  #           with:
+  #               name: ngx-configuration-options
+  #               path: dist
 
-      - name: Publish Test Results
-        uses: EnricoMi/publish-unit-test-result-action@v2
-        if: always()
-        with:
-          files: |
-            src/${{ env.TEST_RESULT_DIR }}/tests.unit.xml
+  #         - name: Setup Nodejs
+  #           uses: actions/setup-node@v4
+  #           with:
+  #               node-version: '20.x'
+  #               registry-url: 'https://registry.npmjs.org'
+
+  #         - name: Pack
+  #           run: |
+  #               mkdir ../packages
+  #               npm pack --pack-destination ../packages
+  #           working-directory: dist
+
+  #         - name: Publish
+  #           run: npm publish --access public *.tgz
+  #           env:
+  #               NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+  #           working-directory: packages
+  # fsdél

@@ -50,7 +50,9 @@
                         "outputPath": "dist/ngx-configuration-sample",
                         "index": "projects/ngx-configuration-sample/src/index.html",
                         "browser": "projects/ngx-configuration-sample/src/main.ts",
-                        "polyfills": ["zone.js"],
+                        "polyfills": [
+                            "zone.js"
+                        ],
                         "tsConfig": "projects/ngx-configuration-sample/tsconfig.app.json",
                         "inlineStyleLanguage": "scss",
                         "assets": [
@@ -59,7 +61,9 @@
                                 "input": "projects/ngx-configuration-sample/public"
                             }
                         ],
-                        "styles": ["projects/ngx-configuration-sample/src/styles.scss"],
+                        "styles": [
+                            "projects/ngx-configuration-sample/src/styles.scss"
+                        ],
                         "scripts": []
                     },
                     "configurations": {
@@ -110,7 +114,10 @@
                 "test": {
                     "builder": "@angular-devkit/build-angular:karma",
                     "options": {
-                        "polyfills": ["zone.js", "zone.js/testing"],
+                        "polyfills": [
+                            "zone.js",
+                            "zone.js/testing"
+                        ],
                         "tsConfig": "projects/ngx-configuration-sample/tsconfig.spec.json",
                         "inlineStyleLanguage": "scss",
                         "assets": [
@@ -119,14 +126,19 @@
                                 "input": "projects/ngx-configuration-sample/public"
                             }
                         ],
-                        "styles": ["projects/ngx-configuration-sample/src/styles.scss"],
+                        "styles": [
+                            "projects/ngx-configuration-sample/src/styles.scss"
+                        ],
                         "scripts": []
                     }
                 },
                 "lint": {
                     "builder": "@angular-eslint/builder:lint",
                     "options": {
-                        "lintFilePatterns": ["projects/ngx-configuration-sample/**/*.ts", "projects/ngx-configuration-sample/**/*.html"],
+                        "lintFilePatterns": [
+                            "projects/ngx-configuration-sample/**/*.ts",
+                            "projects/ngx-configuration-sample/**/*.html"
+                        ],
                         "eslintConfig": "projects/ngx-configuration-sample/eslint.config.js"
                     }
                 }
@@ -134,7 +146,9 @@
         }
     },
     "cli": {
-        "schematicCollections": ["@angular-eslint/schematics"],
+        "schematicCollections": [
+            "@angular-eslint"
+        ],
         "analytics": false,
         "cache": {
             "enabled": false

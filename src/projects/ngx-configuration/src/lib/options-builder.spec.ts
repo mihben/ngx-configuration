@@ -123,3 +123,4 @@ describe('OptionsBuilder', () => {
         ).not.toThrow(InvalidConfigurationError);
     });
 });
+
